@@ -6,6 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SECTIONS = [
+    ("concepts", "概念"),
     ("decisions", "决策与约定"),
     ("pitfalls", "踩坑记录"),
     ("insights", "判断与洞察"),
