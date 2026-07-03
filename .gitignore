@@ -1,2 +1,10 @@
 # Obsidian 本地工作区配置(主题、窗口布局等),不入库
 .obsidian/
+
+# Claudian 插件的本地配置与会话缓存,不是记忆内容,不入库
+claudian-settings.json
+conv-*.json
+conv-*.jsonl
+
+# macOS 系统文件
+.DS_Store
