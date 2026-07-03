@@ -1,7 +1,7 @@
 # CLAUDE.md — AI 协作与记忆库规则
 
-本仓库(`jadecoltane/memory`)**就是记忆库本身**:纯 Markdown + Obsidian 双链,不绑定任何工具。
-读写它的 AI 都遵循这同一套规则(当前只接入 Claude;库本身是纯 Markdown,任何工具将来都能接入)。文件名就是一句话结论,正文是简短的"为什么"。
+本仓库(`jadecoltane/memory`)**就是记忆库本身**:数据层是纯 Markdown + Git,保证可迁移、任何 AI 将来都能接入;使用层上 **Obsidian 插件放开用**(Dataview、Obsidian Git 等)——不绑定的是数据,不是使用体验。AI 生成的页面可以依赖插件渲染动态内容。
+读写它的 AI 都遵循这同一套规则(当前只接入 Claude)。文件名就是一句话结论,正文是简短的"为什么"。
 
 **索引已自动化**:`.github/workflows/rebuild-index.yml` 会在任何推送到 main 且改动了记忆文件时自动重建 `index.md`,不需要人或 AI 记得手动跑脚本——包括用户直接在 Obsidian 里写完推送、完全没有 AI 参与的情况。AI 手动跑 `scripts/build_memory_index.py` 仍然保留(能在推送前就看到一致的状态),但不再是索引不过期的唯一保障。
 
