@@ -16,4 +16,4 @@ checkable: false
 
 **看某条记忆的"朋友圈"**:打开一条笔记,命令面板(Cmd+P)输入 "local graph"(局部关系图)——只显示与这条直接相连的记忆,比全局图更适合顺藤摸瓜。
 
-相关:[[notes/Obsidian用Git插件同步GitHub再经iCloud即可手机查看]]、[[decisions/记忆库用纯Markdown加Git不绑定任何AI工具]]
+相关:[[notes/obsidian/Obsidian用Git插件同步GitHub再经iCloud即可手机查看]]、[[decisions/记忆库用纯Markdown加Git不绑定任何AI工具]]

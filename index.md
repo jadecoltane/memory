@@ -19,9 +19,9 @@
 
 ## 我的收藏
 
-- [[notes/Obsidian最小配置是打开vault装Git插件_查看技巧有局部图谱与排除目录|Obsidian最小配置是打开vault装Git插件_查看技巧有局部图谱与排除目录]]
-- [[notes/Obsidian用Git插件同步GitHub再经iCloud即可手机查看|Obsidian用Git插件同步GitHub再经iCloud即可手机查看]]
 - [[notes/health/静息心率越慢通常与寿命更长相关|静息心率越慢通常与寿命更长相关]]
-- [[notes/回去要把Obsidian默认附件存放位置改成notes-assets|回去要把Obsidian默认附件存放位置改成notes-assets]]
+- [[notes/obsidian/Obsidian最小配置是打开vault装Git插件|Obsidian最小配置是打开vault装Git插件]]
+- [[notes/obsidian/Obsidian用Git插件同步GitHub再经iCloud即可手机查看|Obsidian用Git插件同步GitHub再经iCloud即可手机查看]]
+- [[notes/obsidian/Obsidian默认附件存放位置改成notes-assets|Obsidian默认附件存放位置改成notes-assets]]
 
 共 10 条记忆。
