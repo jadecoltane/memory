@@ -21,5 +21,6 @@
 
 - [[notes/Obsidian最小配置是打开vault装Git插件_查看技巧有局部图谱与排除目录|Obsidian最小配置是打开vault装Git插件_查看技巧有局部图谱与排除目录]]
 - [[notes/Obsidian用Git插件同步GitHub再经iCloud即可手机查看|Obsidian用Git插件同步GitHub再经iCloud即可手机查看]]
+- [[notes/回去要把Obsidian默认附件存放位置改成notes-assets|回去要把Obsidian默认附件存放位置改成notes-assets]]
 
-共 8 条记忆。
+共 9 条记忆。
