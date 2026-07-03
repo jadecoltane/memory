@@ -10,6 +10,7 @@ SECTIONS = [
     ("pitfalls", "踩坑记录"),
     ("insights", "判断与洞察"),
     ("questions", "未解问题"),
+    ("notes", "知识笔记"),
 ]
 
 
