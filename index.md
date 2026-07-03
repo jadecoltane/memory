@@ -23,5 +23,12 @@
 - [[notes/obsidian/Obsidian最小配置是打开vault装Git插件|Obsidian最小配置是打开vault装Git插件]]
 - [[notes/obsidian/Obsidian用Git插件同步GitHub再经iCloud即可手机查看|Obsidian用Git插件同步GitHub再经iCloud即可手机查看]]
 - [[notes/obsidian/Obsidian默认附件存放位置改成notes-assets|Obsidian默认附件存放位置改成notes-assets]]
+- [[notes/主体性/完整手册——水缸、哲学、主心骨与主体性|完整手册——水缸、哲学、主心骨与主体性]]
+- [[notes/主体性/自我重养育：用含情注视代替KPI式自我审判|自我重养育：用含情注视代替KPI式自我审判]]
+- [[notes/生活方式/上海辣系及常去餐厅打卡清单|上海辣系及常去餐厅打卡清单]]
+- [[notes/生活方式/护肤品选购与成分判读指南|护肤品选购与成分判读指南]]
+- [[notes/生活方式/胶囊衣橱·衣物清单与消耗策略|胶囊衣橱·衣物清单与消耗策略]]
+- [[notes/社会认知/人设的反作用|人设的反作用]]
+- [[notes/社会认知/工作可能并不能带你真正认知社会|工作可能并不能带你真正认知社会]]
 
-共 10 条记忆。
+共 17 条记忆。
