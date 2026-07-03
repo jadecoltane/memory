@@ -1,6 +1,6 @@
 # 记忆索引
 
-> 自动生成于 2026-07-03,勿手改;运行 `python3 scripts/build_memory_index.py` 更新。
+> 自动生成于 2026-07-04,勿手改;运行 `python3 scripts/build_memory_index.py` 更新。
 
 ## 决策与约定
 
@@ -13,6 +13,7 @@
 ## 踩坑记录
 
 - [[pitfalls/git仓库放iCloud目录可能因大量小文件同步冲突|git仓库放iCloud目录可能因大量小文件同步冲突]] (verified: 2026-07-03)
+- [[pitfalls/macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除|macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除]] (verified: 2026-07-04)
 
 ## 判断与洞察
 
@@ -21,9 +22,6 @@
 ## 我的收藏
 
 - [[notes/health/静息心率越慢通常与寿命更长相关|静息心率越慢通常与寿命更长相关]] (verified: false, checked: 2026-07-03)
-- [[notes/obsidian/Obsidian最小配置是打开vault装Git插件|Obsidian最小配置是打开vault装Git插件]]
-- [[notes/obsidian/Obsidian用Git插件同步GitHub再经iCloud即可手机查看|Obsidian用Git插件同步GitHub再经iCloud即可手机查看]]
-- [[notes/obsidian/Obsidian默认附件存放位置改成notes-assets|Obsidian默认附件存放位置改成notes-assets]]
 - [[notes/主体性/完整手册——水缸、哲学、主心骨与主体性|完整手册——水缸、哲学、主心骨与主体性]]
 - [[notes/主体性/自我重养育：用含情注视代替KPI式自我审判|自我重养育：用含情注视代替KPI式自我审判]]
 - [[notes/生活方式/上海辣系及常去餐厅打卡清单|上海辣系及常去餐厅打卡清单]]
@@ -32,4 +30,4 @@
 - [[notes/社会认知/人设的反作用|人设的反作用]]
 - [[notes/社会认知/工作可能并不能带你真正认知社会|工作可能并不能带你真正认知社会]]
 
-共 18 条记忆。
+共 16 条记忆。
