@@ -14,4 +14,4 @@ AI 写记忆 → AI 读记忆 → 基于记忆再写记忆,回路里若没有外
 
 若未来记忆写入全部经过人工审核,本条降为常识。
 
-相关:[[decisions/记忆库用纯Markdown加Git不绑定任何AI工具]]
+相关:[[decisions/数据层保持Markdown加Git但Obsidian插件放开用]]

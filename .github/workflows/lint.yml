@@ -1,0 +1,21 @@
+# 每次推送做记忆库体检:断链、frontmatter 完整性。
+# 体检失败 workflow 亮红灯,GitHub 会邮件通知——规则不再只靠 AI 自觉遵守。
+name: 记忆库体检
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: 断链与 frontmatter 检查
+        run: python3 scripts/lint_memory.py

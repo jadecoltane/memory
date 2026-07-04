@@ -13,4 +13,4 @@ last-verified: 2026-07-03
 
 基本不会;这是记忆库的准入门槛。
 
-相关:[[decisions/记忆库用纯Markdown加Git不绑定任何AI工具]]
+相关:[[decisions/数据层保持Markdown加Git但Obsidian插件放开用]]
