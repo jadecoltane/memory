@@ -1,6 +1,10 @@
 # 每周一北京时间 09:00 在云端做 Memory GC + 指针巡检,不依赖任何本地设备开机。
 # 需要仓库 secret:CLAUDE_CODE_OAUTH_TOKEN(与工作台日更共用)。
 # 指针巡检需要额外的 secret:REPO_PATROL_PAT(对用户名下仓库有写权限的 PAT),没配则自动跳过巡检、只做 GC。
+# 省成本闸门:如果自上次 GC 以来仓库没有任何实质性新提交(排除工作台日更),
+# 就跳过本次 Claude 调用,不付整份 CLAUDE.md 的读取成本。代价:指针巡检、
+# 60 天 insight 降级这类按时间触发、与"本周有没有新内容"无关的维护,也会
+# 在安静周被一起顺延到下次真正有新提交的那周(用户 2026-07-04 明确接受这个取舍)。
 name: 每周 Memory GC
 
 on:
@@ -21,7 +25,27 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 检查本周有没有实质性新提交
+        id: check
+        run: |
+          LAST_GC=$(git log --grep="^每周 GC:" --format="%H" -1 || true)
+          if [ -z "$LAST_GC" ]; then
+            echo "首次运行或找不到上次 GC 提交,不跳过"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          else
+            CHANGED=$(git log "$LAST_GC"..HEAD --oneline --invert-grep --grep="^工作台日更:" | wc -l)
+            echo "自上次 GC($LAST_GC)以来有 $CHANGED 条非工作台提交"
+            if [ "$CHANGED" -eq 0 ]; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "## 本周 GC:已跳过" >> "$GITHUB_STEP_SUMMARY"
+              echo "自上次 GC 以来没有实质性新提交(工作台日更不算),跳过本次调用以节省 token。" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "skip=false" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
       - name: Claude 执行每周 GC 与指针巡检
+        if: steps.check.outputs.skip != 'true'
         uses: anthropics/claude-code-action@v1
         env:
           REPO_PATROL_PAT: ${{ secrets.REPO_PATROL_PAT }}

@@ -10,7 +10,7 @@
 
 **三个自动化,不需要 AI 手动补**:
 - `rebuild-index.yml`:推送到 main 且改了记忆文件就自动重建 `index.md`(AI 仍可手动跑 `scripts/build_memory_index.py` 提前核对)
-- `weekly-gc.yml`:每周一 09:00(北京时间)云端跑「Memory GC」一节的步骤 + 指针巡检(需要 `REPO_PATROL_PAT`,没配就跳过巡检)
+- `weekly-gc.yml`:每周一 09:00(北京时间)云端跑「Memory GC」一节的步骤 + 指针巡检(需要 `REPO_PATROL_PAT`,没配就跳过巡检)。**自上次 GC 以来零实质性新提交就直接跳过整次调用**,省 token 但会顺延按时间触发的维护(见 [[decisions/自动化与文档设计优先选省token不影响效果的轻量方案]])
 - `lint.yml`:每次推送跑 `scripts/lint_memory.py` 查断链和 frontmatter 完整性,失败邮件通知(幽灵概念是设计允许的,不算断链)。AI 写完记忆建议本地先跑一遍
 
 ## 开工时(必做)
