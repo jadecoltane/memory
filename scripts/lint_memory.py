@@ -91,6 +91,11 @@ def check_frontmatter(path: Path):
     elif top == "concepts":
         if fm.get("type") != "concept":
             errors.append(f"{rel}: 概念页 frontmatter 必须是 type: concept")
+    elif top == "profile":
+        if fm.get("type") != "profile":
+            errors.append(f"{rel}: 画像页 frontmatter 必须是 type: profile")
+        if "updated" not in fm:
+            errors.append(f"{rel}: 画像页必须有 updated 日期")
     elif top == "notes":
         if "type" not in fm:
             warnings.append(f"{rel}: 还没有 frontmatter(手写笔记?等 GC 补齐)")
@@ -98,7 +103,7 @@ def check_frontmatter(path: Path):
 
 def main():
     paths, basenames, aliases = collect_pages()
-    for top in TIMELINE_DIRS + ["notes", "concepts"]:
+    for top in TIMELINE_DIRS + ["notes", "concepts", "profile"]:
         d = ROOT / top
         if not d.is_dir():
             continue
