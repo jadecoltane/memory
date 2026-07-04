@@ -1,0 +1,45 @@
+# 每周一北京时间 09:00 在云端做 Memory GC + 指针巡检,不依赖任何本地设备开机。
+# 需要仓库 secret:CLAUDE_CODE_OAUTH_TOKEN(与工作台日更共用)。
+# 指针巡检需要额外的 secret:REPO_PATROL_PAT(对用户名下仓库有写权限的 PAT),没配则自动跳过巡检、只做 GC。
+name: 每周 Memory GC
+
+on:
+  schedule:
+    - cron: "0 1 * * 1" # UTC 周一 01:00 = 北京时间周一 09:00
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  gc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude 执行每周 GC 与指针巡检
+        uses: anthropics/claude-code-action@v1
+        env:
+          REPO_PATROL_PAT: ${{ secrets.REPO_PATROL_PAT }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            当前目录就是个人记忆库仓库(jadecoltane/memory)。读根目录 CLAUDE.md 的「Memory GC(垃圾回收,约每周一次)」一节,严格按那一节列出的 1-8 步执行本周 GC。要点提醒:
+
+            - notes 复核只处理 checkable 内容,引用必须来自 WebSearch/WebFetch 当次返回的真实 URL,查不到就写"未找到可靠来源"
+            - 需要用户裁决的条目(存疑复核结果、180 天双空缺的 note、张力扫描发现的矛盾)不要自行处置,汇总写进本次 commit message 的正文里
+            - 改动记忆文件后运行 python3 scripts/build_memory_index.py 重建索引;检查 SUMMARY.md 是否有该新起或更新的条目
+            - 无事可做就不要制造改动,允许本次没有提交
+
+            GC 之后做指针巡检:若环境变量 REPO_PATROL_PAT 非空,用它作为 GitHub 凭据(GH_TOKEN)列出用户名下所有仓库,给缺少记忆指针的仓库按 CLAUDE.md「在新仓库安装记忆指针」一节补装 templates/repo-pointer.md(不能直接推默认分支就开 PR);若为空,跳过巡检并在输出里注明"未配置 REPO_PATROL_PAT,本周跳过指针巡检"。
+
+            有改动时提交推送:
+            git config user.name "memory-gc-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add -A && git commit -m "每周 GC:$(date -u -d '+8 hours' +%F)" && git push
+            commit message 第一行之后附上一句话摘要(动了什么、为什么)和需要用户裁决的条目清单。
+          claude_args: |
+            --allowedTools "Bash,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch"
