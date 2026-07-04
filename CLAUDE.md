@@ -9,6 +9,8 @@
 
 **索引已自动化**:`.github/workflows/rebuild-index.yml` 会在任何推送到 main 且改动了记忆文件时自动重建 `index.md`,不需要人或 AI 记得手动跑脚本——包括用户直接在 Obsidian 里写完推送、完全没有 AI 参与的情况。AI 手动跑 `scripts/build_memory_index.py` 仍然保留(能在推送前就看到一致的状态),但不再是索引不过期的唯一保障。
 
+**每周 GC 已自动化**:`.github/workflows/weekly-gc.yml` 每周一 09:00(北京时间)在云端执行「Memory GC」一节的流程和指针巡检,并直接提交推送——AI 不需要另行安排每周 GC;用户临时要求时按需手动执行即可。指针巡检部分依赖仓库 secret `REPO_PATROL_PAT`(跨仓库写权限的 PAT),未配置时自动跳过。
+
 **规则执行有机器兜底**:`.github/workflows/lint.yml` 在每次推送时跑 `scripts/lint_memory.py`,检查断链和 frontmatter 完整性(幽灵概念是设计允许的,不算断链),失败会亮红灯并邮件通知用户——规则写给 AI,但监督不能只靠 AI 自觉(真实案例:supersede 删旧文件后,5 处反向双链全都忘了更新,是 lint 抓出来的)。AI 写完记忆后建议本地跑一遍 lint 再提交。
 
 ## 开工时(必做)
