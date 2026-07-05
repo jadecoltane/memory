@@ -35,6 +35,7 @@
 
 - [[pitfalls/git仓库放iCloud目录可能因大量小文件同步冲突|git仓库放iCloud目录可能因大量小文件同步冲突]] (verified: 2026-07-03)
 - [[pitfalls/macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除|macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除]] (verified: 2026-07-04)
+- [[pitfalls/工作台dataviewjs用裸setInterval会在切页返回后叠加计时器拖垮渲染|工作台dataviewjs用裸setInterval会在切页返回后叠加计时器拖垮渲染]] (verified: 2026-07-05)
 - [[pitfalls/记忆库仓库曾默认公开导致隐私内容对外暴露|记忆库仓库曾默认公开导致隐私内容对外暴露]] (verified: 2026-07-04)
 
 ## 判断与洞察
@@ -56,4 +57,4 @@
 - [[notes/社会认知/人设的反作用|人设的反作用]]
 - [[notes/社会认知/工作可能并不能带你真正认知社会|工作可能并不能带你真正认知社会]]
 
-共 36 条记忆。
+共 37 条记忆。
