@@ -5,6 +5,8 @@ last-verified: 2026-07-06
 supersedes: 记忆库vault已迁出iCloud到本地只用git同步
 ---
 
+**⚠️ 已被 [[decisions/vault用普通git接受插件偶尔报错]] 取代**:当晚实测发现 nosync 方案(不管是 symlink 还是 gitdir 重定向文件、不管数据放在 vault 内还是完全搬到 iCloud 外的 `~/.memory-git`)都会在 Obsidian Git 插件运行时被写坏——`.git` 会被删除或复制出 `.git 2`/`.git 3` 这类冲突副本。关闭插件、只跑纯终端命令则完全稳定,证明问题根源是**插件本身**跟这个 iCloud 容器的写入方式不兼容,不是"iCloud 同步 .git 内部文件"这一件事本身。用户最终选择保留插件、接受偶尔报错手动修复,放弃了任何结构性根治的尝试。以下保留原始记录:
+
 # 结论
 
 vault 最终留在原 iCloud 路径 `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/memory`,没有迁出本地。用 `.git` → `.git.nosync` 改名 + 同名 symlink 的方式,把 git 内部数据排除出 iCloud 同步(iCloud 认 `.nosync` 后缀约定,完全不碰这个文件夹);`.gitignore` 加了 `.git.nosync/` 防止被 git 自己当成未追踪内容。

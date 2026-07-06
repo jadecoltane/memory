@@ -5,9 +5,9 @@
 
 ## 记忆库自身怎么搭
 
-独立仓库 `jadecoltrane/memory`,纯 Markdown + Git + Obsidian 双链,不绑定任何私有格式,索引靠 GitHub Actions 自动重建。**仓库必须保持 GitHub 私有**——建库时曾误设为公开,2026-07-04 发现并转私有,公开期间的暴露只能止损无法追回。当前只接入 Claude(Gemini 网页版因为只能读快照、不能写入,暂不整合)。iCloud 同步在这个仓库上踩过两个坑(大量小文件同步冲突拖慢 git 甚至弄坏 `.git/index`;macOS 中文文件名 NFC/NFD 不一致让 git 误判整个文件夹已删除,已用 `core.precomposeunicode true` 修复)。2026-07-06 晚一度尝试把 vault 整体迁出本地,因会话中途一次仍在后台运行的 Finder 拷贝任务悄悄覆盖了本地副本而放弃,最终方案是 vault 留在原 iCloud 路径,把 `.git` 改名 `.git.nosync` 建同名 symlink,让 iCloud 完全不碰 git 内部文件。根治后 Obsidian 的「Git」社区插件在 Mac 上**保持启用**、自动 commit/push/pull 照常工作(不用再手动跑 git)——手机端因 `.git.nosync` 不会同步过去,插件在手机上会报无效仓库的无害提示,想要手机也自动提交需单独给手机建独立的本地 git。AI 自己写、自己读的记忆回路里,人类始终保留否决权,不做定期"这条还作数吗"式的主动追问;但规则执行不再只靠 AI 自觉——CI 每次推送做断链和 frontmatter 体检,工作台横幅带 48 小时心跳报警,静默挂掉会被看见。
+独立仓库 `jadecoltrane/memory`,纯 Markdown + Git + Obsidian 双链,不绑定任何私有格式,索引靠 GitHub Actions 自动重建。**仓库必须保持 GitHub 私有**——建库时曾误设为公开,2026-07-04 发现并转私有,公开期间的暴露只能止损无法追回。当前只接入 Claude(Gemini 网页版因为只能读快照、不能写入,暂不整合)。iCloud 同步在这个仓库上踩过两个坑(大量小文件同步冲突拖慢 git 甚至弄坏 `.git/index`;macOS 中文文件名 NFC/NFD 不一致让 git 误判整个文件夹已删除,已用 `core.precomposeunicode true` 修复)。2026-07-06 晚试过多种结构性修复(整体迁出本地、`.git` 改 symlink/gitdir 文件排除出 iCloud、gitdir 指向完全外部路径),全部证明行不通——问题根因是 **Obsidian Git 插件本身的写入方式**跟这个 iCloud 容器冲突,不管 `.git` 伪装成什么形态、放在哪,插件一运行就会被写坏(删除或复制出 `.git 2` 类冲突副本);关闭插件、纯终端操作反而完全稳定。最终决定放弃结构性根治,回到最简单的原状:`.git` 就是普通目录,插件保持启用,用户接受偶尔报错,出现时用文档里的命令手动修复(`rm .git/index && git reset`)。AI 自己写、自己读的记忆回路里,人类始终保留否决权,不做定期"这条还作数吗"式的主动追问;但规则执行不再只靠 AI 自觉——CI 每次推送做断链和 frontmatter 体检,工作台横幅带 48 小时心跳报警,静默挂掉会被看见。
 
-相关:[[decisions/数据层保持Markdown加Git但Obsidian插件放开用]]、[[decisions/vault保留iCloud仅用nosync隔离git内部文件]]、[[decisions/记忆库vault已迁出iCloud到本地只用git同步]]、[[decisions/Gemini网页版只能读快照不能写入故暂不整合Gemini]]、[[insights/AI自写自读的记忆回路需要人工否决权]]、[[pitfalls/git仓库放iCloud目录可能因大量小文件同步冲突]]、[[pitfalls/macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除]]、[[pitfalls/记忆库仓库曾默认公开导致隐私内容对外暴露]]
+相关:[[decisions/数据层保持Markdown加Git但Obsidian插件放开用]]、[[decisions/vault用普通git接受插件偶尔报错]]、[[decisions/vault保留iCloud仅用nosync隔离git内部文件]]、[[decisions/记忆库vault已迁出iCloud到本地只用git同步]]、[[decisions/Gemini网页版只能读快照不能写入故暂不整合Gemini]]、[[insights/AI自写自读的记忆回路需要人工否决权]]、[[pitfalls/git仓库放iCloud目录可能因大量小文件同步冲突]]、[[pitfalls/macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除]]、[[pitfalls/记忆库仓库曾默认公开导致隐私内容对外暴露]]
 
 ## 记忆库写入与维护的取舍原则
 

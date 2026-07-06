@@ -29,10 +29,12 @@ git status     # 确认恢复正常
 
 真实数据不受影响——vault 的真身在 GitHub(`jadecoltrane/memory`),`.git/index` 只是本地暂存区状态,坏了顶多丢一点还没提交推送的改动。
 
-# 预防(已根治,Mac 端)
+# 预防(结构性根治已证明行不通,接受现状)
 
-**2026-07-06 晚最终方案**:vault 留在 iCloud(中途短暂尝试整体迁出本地,因一次 Finder 后台拷贝任务在会话期间静默完成、覆盖了本地副本而放弃,过程见 decisions/记忆库vault已迁出iCloud到本地只用git同步.md 与 decisions/vault保留iCloud仅用nosync隔离git内部文件.md),改用**方案 1**根治:`.git` 改名 `.git.nosync` + 建同名 symlink `.git -> .git.nosync`,iCloud 认这个后缀约定,完全不碰 `.git.nosync/` 里的内容,普通 git 命令通过 symlink 照常工作。`.gitignore` 里加了 `.git.nosync/` 防止被 git 自己误当成未追踪内容纳入。
+**2026-07-06 晚试过三种结构性方案,全部失败**:`.git` 改 symlink 指向 `.git.nosync`(被 Obsidian 核心程序扫描 vault 时拍平)、`.git` 改成 gitdir 重定向的纯文本文件且数据仍放 vault 内(插件运行时一样被删除/复制出 `.git 2`)、gitdir 指向完全在 iCloud 外的 `~/.memory-git`(关闭插件时用终端操作完全稳定,但**插件一运行,连这个静态指针文件也会被删除/复制**)。三次实测共同证明:根因是**插件本身的写入方式**跟这个 iCloud 容器冲突,不是"iCloud 同步 .git 内部文件"这件事本身——所以不管把 `.git` 伪装成什么形态,只要插件在跑,就会被写坏。
 
-Obsidian 的「Git」社区插件**保持启用**——nosync 已经让 iCloud 完全看不到 `.git` 内部文件,插件在 Mac 上自动 commit/push/pull 不会再和 iCloud 打架,不需要为了防已经根治的风险牺牲自动化。手机端由于 `community-plugins.json` 共享,插件在手机上也会显示启用,但手机 vault 里没有 `.git`(nosync 决定它永远不会同步过去),插件会报"不是有效仓库"之类的无害提示;手机如果也想自动提交,需要单独给手机建一个独立的本地 `.git`(各自 push/pull 同一个 GitHub 远程,属于正常的 git 多设备协作,不再有共享文件系统层面的冲突风险)。
+**最终决定**(decisions/vault用普通git接受插件偶尔报错.md):放弃所有结构性修复,`.git` 就是最普通的真实目录,插件保持启用。用户明确接受偶尔报错,出现时用上面「解法」一节的命令手动修复。也评估过完全弃用插件、改用外部脚本定时 pull/push(实测稳定),但用户想要插件自带的"打开自动拉取、编辑自动推送"体验,权衡后放弃了脚本方案。
 
-相关:[[decisions/数据层保持Markdown加Git但Obsidian插件放开用]]、[[decisions/记忆库vault已迁出iCloud到本地只用git同步]]、[[pitfalls/macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除]](iCloud 同步在这个仓库上踩出的另一个具体坑)
+**以后不要再往结构性修复的方向花时间**——symlink、原地 gitdir 文件、外部 gitdir 路径三种变体都已经在插件运行时验证失败。
+
+相关:[[decisions/数据层保持Markdown加Git但Obsidian插件放开用]]、[[decisions/vault用普通git接受插件偶尔报错]]、[[decisions/vault保留iCloud仅用nosync隔离git内部文件]]、[[decisions/记忆库vault已迁出iCloud到本地只用git同步]]、[[pitfalls/macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除]](iCloud 同步在这个仓库上踩出的另一个具体坑)
