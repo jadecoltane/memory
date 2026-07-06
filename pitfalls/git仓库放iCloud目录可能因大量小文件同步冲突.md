@@ -33,6 +33,6 @@ git status     # 确认恢复正常
 
 **2026-07-06 晚最终方案**:vault 留在 iCloud(中途短暂尝试整体迁出本地,因一次 Finder 后台拷贝任务在会话期间静默完成、覆盖了本地副本而放弃,过程见 decisions/记忆库vault已迁出iCloud到本地只用git同步.md 与 decisions/vault保留iCloud仅用nosync隔离git内部文件.md),改用**方案 1**根治:`.git` 改名 `.git.nosync` + 建同名 symlink `.git -> .git.nosync`,iCloud 认这个后缀约定,完全不碰 `.git.nosync/` 里的内容,普通 git 命令通过 symlink 照常工作。`.gitignore` 里加了 `.git.nosync/` 防止被 git 自己误当成未追踪内容纳入。
 
-配套决定:**Obsidian 的「Git」社区插件整个关掉**(不是只在手机上关——`.obsidian/community-plugins.json` 本身跟着 vault 走 iCloud 同步,任一设备关闭都会同步到所有设备)。以后 git 的 add/commit/push/pull 只通过终端或 Claude Code 手动执行,不再有任何设备在后台自动跑 git 操作去碰 `.git`,从根上消除"两边同时读写 .git 内部文件"的场景。笔记本身的手动编辑不受影响,仍会被 git 正常识别为工作区改动,只是不再有人自动帮你提交推送。
+Obsidian 的「Git」社区插件**保持启用**——nosync 已经让 iCloud 完全看不到 `.git` 内部文件,插件在 Mac 上自动 commit/push/pull 不会再和 iCloud 打架,不需要为了防已经根治的风险牺牲自动化。手机端由于 `community-plugins.json` 共享,插件在手机上也会显示启用,但手机 vault 里没有 `.git`(nosync 决定它永远不会同步过去),插件会报"不是有效仓库"之类的无害提示;手机如果也想自动提交,需要单独给手机建一个独立的本地 `.git`(各自 push/pull 同一个 GitHub 远程,属于正常的 git 多设备协作,不再有共享文件系统层面的冲突风险)。
 
 相关:[[decisions/数据层保持Markdown加Git但Obsidian插件放开用]]、[[decisions/记忆库vault已迁出iCloud到本地只用git同步]]、[[pitfalls/macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除]](iCloud 同步在这个仓库上踩出的另一个具体坑)
