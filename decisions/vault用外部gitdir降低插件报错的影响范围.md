@@ -5,6 +5,8 @@ last-verified: 2026-07-06
 supersedes: vault用普通git接受插件偶尔报错
 ---
 
+**⚠️ 已被 [[decisions/vault用xattr标记隔离git目录避免插件报错]] 取代**:用户分享了一篇实操帖,提到用 `xattr -w com.apple.clouddocs.not-sync 1 .git` 直接给 `.git` 打标记(不改名不重定向),实测下插件运行近 4 分钟都完全稳定——比这里记录的"外部 gitdir 指针文件在插件运行时仍会被写坏"效果好得多。以下保留原始记录作为备用回退方案(如果 xattr 方案长期使用后也出问题,可以退回这条)。
+
 # 结论
 
 vault 留在 iCloud 原路径,但 git 数据本体搬到 `/Users/peiyaohuang/.memory-git`(完全在 iCloud 之外),vault 根目录的 `.git` 只是一个一行纯文本指针文件:

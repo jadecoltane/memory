@@ -27,6 +27,7 @@
 - [[decisions/Gemini网页版只能读快照不能写入故暂不整合Gemini|Gemini网页版只能读快照不能写入故暂不整合Gemini]] (verified: 2026-07-03)
 - [[decisions/claude仓库长期只保留claude-main和gh-pages两个分支|claude仓库长期只保留claude-main和gh-pages两个分支]] (verified: 2026-07-03)
 - [[decisions/vault保留iCloud仅用nosync隔离git内部文件|vault保留iCloud仅用nosync隔离git内部文件]] (verified: 2026-07-06)
+- [[decisions/vault用xattr标记隔离git目录避免插件报错|vault用xattr标记隔离git目录避免插件报错]] (verified: 2026-07-06)
 - [[decisions/vault用外部gitdir降低插件报错的影响范围|vault用外部gitdir降低插件报错的影响范围]] (verified: 2026-07-06)
 - [[decisions/vault用普通git接受插件偶尔报错|vault用普通git接受插件偶尔报错]] (verified: 2026-07-06)
 - [[decisions/下线跨仓库指针巡检改为用户手动接入记忆库|下线跨仓库指针巡检改为用户手动接入记忆库]] (verified: 2026-07-06)
@@ -72,4 +73,4 @@
 - [[notes/社区学/自我重养育：用含情注视代替KPI式自我审判|自我重养育：用含情注视代替KPI式自我审判]]
 - [[notes/问答/2026-07 工作台问答|2026-07 工作台问答]]
 
-共 52 条记忆。
+共 53 条记忆。
