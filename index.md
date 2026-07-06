@@ -41,6 +41,7 @@
 - [[pitfalls/云端GitHub-Actions定时任务偶发因claude-code-action的OIDC鉴权bug失败|云端GitHub-Actions定时任务偶发因claude-code-action的OIDC鉴权bug失败]] (verified: 2026-07-06)
 - [[pitfalls/工作台dataviewjs用裸setInterval会在切页返回后叠加计时器拖垮渲染|工作台dataviewjs用裸setInterval会在切页返回后叠加计时器拖垮渲染]] (verified: 2026-07-05)
 - [[pitfalls/工作台没更新先检查本地是否拉取了远端而不是怀疑云端日更挂了|工作台没更新先检查本地是否拉取了远端而不是怀疑云端日更挂了]] (verified: 2026-07-06)
+- [[pitfalls/本地vault落后于远端时vault-backup提交可能把远端新增内容覆盖回旧版本|本地vault落后于远端时vault-backup提交可能把远端新增内容覆盖回旧版本]] (verified: 2026-07-06)
 - [[pitfalls/记忆库仓库曾默认公开导致隐私内容对外暴露|记忆库仓库曾默认公开导致隐私内容对外暴露]] (verified: 2026-07-04)
 
 ## 判断与洞察
@@ -63,4 +64,4 @@
 - [[notes/社会认知/工作可能并不能带你真正认知社会|工作可能并不能带你真正认知社会]]
 - [[notes/问答/2026-07 工作台问答|2026-07 工作台问答]]
 
-共 43 条记忆。
+共 44 条记忆。
