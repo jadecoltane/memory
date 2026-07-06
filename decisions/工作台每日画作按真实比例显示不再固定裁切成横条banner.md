@@ -19,3 +19,11 @@ last-verified: 2026-07-06
 刻意全部用内联样式 + `window.matchMedia` 做断点判断,不写进 `.obsidian/snippets/workbench.css`——那个文件本地专属、不入库,AI 在远程会话里看不到也改不了,写在 工作台.md 的 dataviewjs 里才能保证以后任何一次会话都能直接改这块布局,不用先问用户要本地文件内容。
 
 原来给 banner 图做的超慢 Ken Burns 呼吸效果(放大缩小)顺带去掉了——效果依赖背景图裁切显示,和"完整显示画作比例"的新目标冲突,没有勉强保留。
+
+# 踩过一次坑:光换内联样式不够,class 名也得换
+
+第一版实现时沿用了旧横幅设计的 class 名(`wb-banner`、`wb-painting-caption`、`wb-painting-title`、`wb-painting-intro`)。手机实测发现文字还是叠在图上——本地 `workbench.css` 里给旧设计写的"文字绝对定位悬浮在图上"的规则(大概率是 `.wb-painting-caption { position:absolute; ...}` 之类)是按 class 名匹配的,新代码复用同名 class 就会被这条旧规则接管,内联样式只覆盖了我显式设置过的属性(`flex`/`gap` 等),没设置的 `position` 之类仍然沿用旧规则。
+
+修复:改用这次改动专属、旧样式表不可能定义过的新 class 名(`wb-daily-painting`、`wb-daily-painting-imgwrap`、`wb-daily-painting-img`、`wb-daily-painting-side`、`wb-daily-painting-name`、`wb-daily-painting-desc`),外层容器的 `height`/`overflow`/`position`/`aspect-ratio` 也显式内联覆盖掉,不只是加新属性。
+
+**以后凡是"改掉一个依赖本地不可见 CSS 的旧视觉设计",新结构必须换新 class 名,不能图省事复用旧 class**——旧 class 名下大概率挂着专为旧设计写的定位/配色规则,复用等于把新结构重新塞回旧规则的辖区,内联样式只能补漏、补不全。
