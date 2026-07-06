@@ -40,7 +40,7 @@
 
 ## 踩坑记录
 
-- [[pitfalls/git仓库放iCloud目录可能因大量小文件同步冲突|git仓库放iCloud目录可能因大量小文件同步冲突]] (verified: 2026-07-03)
+- [[pitfalls/git仓库放iCloud目录可能因大量小文件同步冲突|git仓库放iCloud目录可能因大量小文件同步冲突]] (verified: 2026-07-06)
 - [[pitfalls/macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除|macOS文件名NFDNFC不一致会让git把整个中文笔记文件夹误判成已删除]] (verified: 2026-07-04)
 - [[pitfalls/云端GitHub-Actions定时任务偶发因claude-code-action的OIDC鉴权bug失败|云端GitHub-Actions定时任务偶发因claude-code-action的OIDC鉴权bug失败]] (verified: 2026-07-06)
 - [[pitfalls/工作台dataviewjs用裸setInterval会在切页返回后叠加计时器拖垮渲染|工作台dataviewjs用裸setInterval会在切页返回后叠加计时器拖垮渲染]] (verified: 2026-07-05)
