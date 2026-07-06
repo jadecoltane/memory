@@ -5,6 +5,8 @@ last-verified: 2026-07-06
 supersedes: vault保留iCloud仅用nosync隔离git内部文件
 ---
 
+**⚠️ 已被 [[decisions/vault用外部gitdir降低插件报错的影响范围]] 取代**:当晚事后重新权衡,发现"普通 `.git` 在原地"和"gitdir 指向完全外部路径"两个方案的**报错概率相同**,但外部方案出问题时只会波及一个可以一行重建的指针文件,真实历史数据完全不暴露给 iCloud,影响范围小得多——所以改用外部方案。以下保留原始记录:
+
 # 结论
 
 vault 留在 iCloud 原路径,`.git` 就是最普通的真实目录,不做任何 symlink/gitdir 重定向/nosync 排除。Obsidian 的「Git」社区插件保持启用,自动 commit/push/pull 照常跑。用户明确接受:插件偶尔会把 `.git` 写坏(报错、或衍生出 `.git 2` 这类冲突副本),出现时用 pitfalls/git仓库放iCloud目录可能因大量小文件同步冲突.md 里记录的方法手动修复。这本质上是回到 2026-07-06 当晚最早、也是最初就成立的那个选择("暂不改动架构"),中间那一整晚的迁出本地、nosync symlink、nosync gitdir 文件、gitdir 指外部路径这几轮尝试,全部被证明要么行不通、要么解决不了真正在意的问题。
