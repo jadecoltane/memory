@@ -24,6 +24,7 @@
 - [[decisions/Gemini网页版只能读快照不能写入故暂不整合Gemini|Gemini网页版只能读快照不能写入故暂不整合Gemini]] (verified: 2026-07-03)
 - [[decisions/claude仓库长期只保留claude-main和gh-pages两个分支|claude仓库长期只保留claude-main和gh-pages两个分支]] (verified: 2026-07-03)
 - [[decisions/不往记忆库写grep能查到的事实|不往记忆库写grep能查到的事实]] (verified: 2026-07-03)
+- [[decisions/任务分支改完可直接合并进main不用每次确认|任务分支改完可直接合并进main不用每次确认]] (verified: 2026-07-06)
 - [[decisions/双链优先指向概念页而非笔记之间直接互链|双链优先指向概念页而非笔记之间直接互链]] (verified: 2026-07-04)
 - [[decisions/回答用户默认一律用中文除非用户指明用其他语言|回答用户默认一律用中文除非用户指明用其他语言]] (verified: 2026-07-05)
 - [[decisions/工作台并排卡片布局用CSS-flex而非Multi-Column-Markdown插件|工作台并排卡片布局用CSS-flex而非Multi-Column-Markdown插件]] (verified: 2026-07-05)
@@ -61,4 +62,4 @@
 - [[notes/社会认知/工作可能并不能带你真正认知社会|工作可能并不能带你真正认知社会]]
 - [[notes/问答/2026-07 工作台问答|2026-07 工作台问答]]
 
-共 41 条记忆。
+共 42 条记忆。
