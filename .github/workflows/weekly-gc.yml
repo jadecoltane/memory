@@ -3,7 +3,7 @@
 # 2026-07-06 起不再做跨仓库指针巡检(见 decisions/下线跨仓库指针巡检改为用户手动接入记忆库.md),
 # 不再需要 REPO_PATROL_PAT。
 # 省成本闸门:如果自上次 GC 以来仓库没有任何实质性新提交(排除工作台日更),
-# 就跳过本次 Claude 调用,不付整份 CLAUDE.md 的读取成本。代价:60 天 insight
+# 就跳过本次 Claude 调用,不付这次 GC 的读取成本。代价:60 天 insight
 # 降级这类按时间触发、与"本周有没有新内容"无关的维护,也会在安静周被一起
 # 顺延到下次真正有新提交的那周(用户 2026-07-04 明确接受这个取舍)。
 name: 每周 Memory GC
@@ -53,7 +53,7 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            当前目录就是个人记忆库仓库(jadecoltane/memory)。读根目录 CLAUDE.md 的「Memory GC(垃圾回收,约每周一次)」一节,严格按那一节列出的每一步执行本周 GC(含步骤 4a、4b)。要点提醒:
+            当前目录就是个人记忆库仓库(jadecoltane/memory)。读根目录 GC.md,严格按里面列出的每一步执行本周 GC(含步骤 4a、4b)。要点提醒:
 
             - 步骤 4a 很容易被漏掉但很重要:用户经常直接在 Obsidian 里手写/粘贴内容,格式随意,甚至会散落在仓库根目录、不在任何 notes/ 子文件夹里,内容也可能混了好几个不相关主题。`git log` 比对时不要只看 notes/ 目录,要扫全仓库找出七个分类目录(profile/concepts/decisions/pitfalls/insights/questions/notes)之外新增的 .md 文件。发现了要按实际主题拆分、改名、移动归位、补 frontmatter 和双链——这一步允许直接改写原文,不是只在文件末尾追加标注,具体授权见 decisions/整理手写笔记允许改写原文而不仅是追加复核记录.md
             - 步骤 4b 也容易被漏掉:扫一遍本周新增/修改的 notes 有没有透露用户的稳定特质(偏好、兴趣、行为准则),profile/ 里没记或记得过时的就更新,别等用户自己问起来才想起来做
