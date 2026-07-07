@@ -758,10 +758,29 @@
   font-size: 0.78em;
   color: var(--text-muted);
 }
-.workbench .wb-panel-link {
-  color: var(--wb-accent-text);
-  font-weight: 600;
-  cursor: pointer;
+/* 笔记面板顶部搜标题框:跟嵌套 write 输入井同一质感(浅内凹),
+   跟分类方卡区隔开一点垂直间距 */
+.workbench .wb-panel-search {
+  margin-bottom: 10px;
+}
+.workbench .wb-panel-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  font-size: 0.88em;
+  color: var(--text-normal);
+  background: var(--background-secondary);
+  border: none;
+  border-radius: var(--wb-radius-sm);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.07);
+}
+.theme-dark .workbench .wb-panel-search-input {
+  background: rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+.workbench .wb-panel-search-input:focus {
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.07), 0 0 0 2px var(--wb-accent-line);
 }
 .workbench .wb-panel-empty {
   padding: 10px;
