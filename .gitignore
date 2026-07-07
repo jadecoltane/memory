@@ -5,6 +5,15 @@
 .obsidian/workspace-mobile.json
 .obsidian/cache/
 
+# obsidian-git 插件自身的行为设置(2026-07-07):跟同步节奏强相关,
+# 手机和 Mac 需要不同的 autoBackupAfterFileChange/autoPullOnBoot 等
+# 组合(手机密集接收 Mac 这边的重命名/删除提交时,"文件一变动就自动
+# commit"会把本地残留的旧文件当"新增"重新提交回去,跟远端的删除打架,
+# 产生一堆虚假冲突),两端各自管理,不再同步这份配置——跟上面
+# workspace.json 是同一类"设备本地状态"。移除同步后两端第一次都会
+# 从默认设置重新来,需要各自手动调一遍
+.obsidian/plugins/obsidian-git/data.json
+
 # Claudian 插件的本地配置与会话缓存,不是记忆内容,不入库
 claudian-settings.json
 conv-*.json
