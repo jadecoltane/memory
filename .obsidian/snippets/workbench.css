@@ -202,15 +202,18 @@
    到顶层 flex item 之间的每一层都会被选中,统一改成 flex 列容器 +
    直接子元素 flex:1,靠 flex 布局逐层撑满(不依赖 height 百分比链,
    flex:1 auto 直接用父容器实际算出来的像素高度,更可靠) */
-.workbench .markdown-preview-sizer > *:has(.wb-reunion) *:has(.wb-reunion),
-.workbench .markdown-preview-sizer > *:has(.wb-daily-painting) *:has(.wb-daily-painting) {
+/* 2026-07-07 起这组"逐层撑满"只给随机重逢用,不再包含名画横幅——
+   高度的主从关系定了:画作卡按自己内容收缩(高度=图片+上下 16px
+   padding),随机重逢靠 syncReunionHeight 把 max-height 跟到画作高度。
+   之前画作也在这组规则里被逐层 flex:1 撑到整行高度,图片又不会跟着
+   拉伸,多出来的高度全变成画作上下的大片空白(用户圈图指出的问题) */
+.workbench .markdown-preview-sizer > *:has(.wb-reunion) *:has(.wb-reunion) {
   display: flex;
   flex-direction: column;
   height: 100%;
   box-sizing: border-box;
 }
-.workbench .markdown-preview-sizer > *:has(.wb-reunion) *:has(.wb-reunion) > *,
-.workbench .markdown-preview-sizer > *:has(.wb-daily-painting) *:has(.wb-daily-painting) > * {
+.workbench .markdown-preview-sizer > *:has(.wb-reunion) *:has(.wb-reunion) > * {
   flex: 1 1 auto;
   min-height: 0;
 }
@@ -625,12 +628,19 @@
 .theme-dark .workbench .wb-reunion:active {
   background: rgba(255, 255, 255, 0.05);
 }
+/* 2026-07-07 二次调整:align-items 从 center 改 flex-start——之前
+   居中会让 🎲 药丸被同一行里 40px 高的换一篇按钮垂直居中挤低,药丸
+   上方多出一截空白;改成贴着头部行顶,跟名画卡的 🖼 药丸对齐在
+   卡片 16px padding 的同一条顶线上(用户圈图要求) */
 .workbench .wb-reunion-head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 5px;
 }
+/* 2026-07-07 二次调整:padding 从 3px 10px 改 3px 12px,跟下面
+   抽卡/延伸/问题那排 callout 胶囊标题(3px 12px)统一(用户要求
+   药丸内间距跟它们相同) */
 .workbench .wb-reunion-tag,
 .workbench .wb-painting-tag {
   font-size: 0.76em;
@@ -638,19 +648,17 @@
   letter-spacing: 0.02em;
   color: var(--wb-accent-text);
   background: var(--wb-accent-soft);
-  padding: 3px 10px;
+  padding: 3px 12px;
   border-radius: 999px;
 }
-/* 名画卡的标签行(wb-painting-head):故意跟 wb-reunion-head 用一样的
-   min-height:40px + margin-bottom:5px——随机重逢那边标签行里还有个
-   40px 高的换一篇按钮撑着,这边只有裸标签,天生矮一截,不显式声明
-   同一个高度,画作标题就会比随机重逢标题高出一截(2026-07-07 用户
-   截图标出来的对不齐)。40px/5px 都是两边 CSS 里本来就写死的常量,
-   不是谁量出来的估值,不会随字号/窗口缩放走样 */
+/* 名画卡的标签行:2026-07-07 二次调整删掉 min-height:40px——那是为了
+   跟随机重逢的标签行(被 40px 换一篇按钮撑高)等高、让两张卡标题对齐
+   加的,代价是药丸在 40px 行里垂直居中,上方挤出一截空白(用户圈图
+   指出)。现在两边药丸都改成贴着卡片顶部 padding 的顶线对齐(随机
+   重逢那边同步改了 align-items:flex-start),标题不再强求同一水平线 */
 .workbench .wb-painting-head {
   display: flex;
   align-items: center;
-  min-height: 40px;
   margin-bottom: 5px;
 }
 /* 换一篇按钮:2026-07-06 按用户给的 figma 拟物教程(Wojciech Zieliński
