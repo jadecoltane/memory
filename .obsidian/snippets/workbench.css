@@ -82,6 +82,18 @@
     --wb-accent-line: oklch(from var(--wb-accent) 0.65 min(c, 0.09) h / 0.5);
   }
 }
+/* 2026-07-07 用户明确要求:深色模式不要再跟着画作色相走了,胶囊/数字/
+   引导线这些强调色元素在深色下就用中性色(“黑的就行”)——白天(浅色
+   主题)继续遵守"全站颜色只有 --wb-accent 一处来源"不变,这条只覆盖
+   深色。写在 @supports 块后面(不管块内那份 oklch 覆盖生不生效,这条
+   都是源码顺序里最后一条同优先级规则,稳赢),直接复用 Obsidian 主题
+   自带的语义变量而不是自己发明一套 rgba 数值,换深色社区主题也能自动
+   适配 */
+.theme-dark .workbench {
+  --wb-accent-text: var(--text-normal);
+  --wb-accent-soft: var(--background-modifier-hover);
+  --wb-accent-line: var(--background-modifier-border);
+}
 
 /* 页面背景:每日随机的纸感渐变 + 一层极淡的颗粒纹理。
    之前试过从画作取色算渐变,反复调了好几轮都不满意,后来改成预设 6 组
@@ -465,6 +477,21 @@
   box-shadow: none;
   transition: background 0.3s var(--wb-ease);
 }
+/* 2026-07-07 补:这两张卡(名画横幅 + 随机重逢)从一开始就是"半透明白
+   叠在彩色渐变上"的毛玻璃设计,专属这两张卡自己的一套硬编码 rgba 值,
+   从没走过其他卡片共用的 --wb-card-bg/--wb-shadow 那套(那套早就有
+   deque深色覆盖)。深色模式下页面渐变整个是关掉的(见上面
+   .theme-dark .markdown-preview-view.workbench 那条),半透明白叠在
+   纯深色背景上只会显得"洗白发灰"——用户反馈"卡片又变成灰的了",根源
+   就在这里被漏掉了深色覆盖。补一份深色专属的低不透明度白 + 顶部高光
+   内阴影,跟其他卡片(wb-card/callout 用的 --wb-shadow)同一套磨砂
+   玻璃质感,不再单独硬编码一份跟主题脱节的浅色数值 */
+.theme-dark .workbench .wb-daily-painting {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  box-shadow: var(--wb-shadow);
+}
 /* 2026-07-07 起,所有"纯粹改变颜色/阴影/位移"的 :hover 规则都包一层
    @media (hover: hover) and (pointer: fine)——手机/触屏浏览器长期有个
    怪癖:CSS 的 :hover 伪类会在手指刚触碰屏幕(甚至只是划过、还没真的
@@ -481,9 +508,15 @@
   .workbench .wb-daily-painting:hover {
     background: rgba(255, 255, 255, 0.45);
   }
+  .theme-dark .workbench .wb-daily-painting:hover {
+    background: rgba(255, 255, 255, 0.11);
+  }
 }
 .workbench .wb-daily-painting:active {
   background: rgba(255, 255, 255, 0.3);
+}
+.theme-dark .workbench .wb-daily-painting:active {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* callout 卡片被页面渐变"染色"的真正根源(2026-07-05,第三次才定位对,
@@ -537,6 +570,15 @@
   cursor: pointer;
   transition: background 0.3s var(--wb-ease);
 }
+/* 深色覆盖同 .wb-daily-painting 那条(见上面注释),同样的漏洞、同样的
+   修法——这张卡跟名画横幅一直是成对维护的毛玻璃质感,深色数值也保持
+   一致 */
+.theme-dark .workbench .wb-reunion {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  box-shadow: var(--wb-shadow);
+}
 /* 摘要区用 flex:1 吃掉剩余空间,文字在这份空间里垂直居中,让内容看起来
    "填满"整张卡片,而不是顶头堆一截、底下留白;内层 .wb-reunion-excerpt-text
    才是真正做多行省略号裁切的元素(-webkit-line-clamp 需要 display:
@@ -559,9 +601,15 @@
   .workbench .wb-reunion:hover {
     background: rgba(255, 255, 255, 0.45);
   }
+  .theme-dark .workbench .wb-reunion:hover {
+    background: rgba(255, 255, 255, 0.11);
+  }
 }
 .workbench .wb-reunion:active {
   background: rgba(255, 255, 255, 0.3);
+}
+.theme-dark .workbench .wb-reunion:active {
+  background: rgba(255, 255, 255, 0.05);
 }
 .workbench .wb-reunion-head {
   display: flex;
@@ -579,12 +627,17 @@
   padding: 3px 10px;
   border-radius: 999px;
 }
-/* 名画卡的标签("🖼 今日画作")没有像随机重逢那样套一层 wb-reunion-head
-   (那层是给标签+换一篇按钮做左右分布用的,这里只有一个标签,不需要
-   额外套壳),直接给标签自己补一个底部间距,跟标题隔开 */
-.workbench .wb-painting-tag {
-  display: inline-block;
-  margin-bottom: 8px;
+/* 名画卡的标签行(wb-painting-head):故意跟 wb-reunion-head 用一样的
+   min-height:40px + margin-bottom:5px——随机重逢那边标签行里还有个
+   40px 高的换一篇按钮撑着,这边只有裸标签,天生矮一截,不显式声明
+   同一个高度,画作标题就会比随机重逢标题高出一截(2026-07-07 用户
+   截图标出来的对不齐)。40px/5px 都是两边 CSS 里本来就写死的常量,
+   不是谁量出来的估值,不会随字号/窗口缩放走样 */
+.workbench .wb-painting-head {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  margin-bottom: 5px;
 }
 /* 换一篇按钮:2026-07-06 按用户给的 figma 拟物教程(Wojciech Zieliński
    的 button 复刻)重做成"玻璃感圆钮",教程步骤逐条翻译成 CSS:
