@@ -4,7 +4,13 @@
   "newFileLocation": "folder",
   "newFileFolderPath": "notes",
   "attachmentFolderPath": "notes/assets",
-  "userIgnoreFilters": [],
+  "userIgnoreFilters": [
+    "decisions/",
+    "pitfalls/",
+    "insights/",
+    "meta/",
+    "profile/"
+  ],
   "showUnsupportedFiles": true,
   "promptDelete": false
 }
