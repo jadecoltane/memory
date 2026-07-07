@@ -475,8 +475,22 @@
   box-shadow: none;
   transition: background 0.3s var(--wb-ease);
 }
-.workbench .wb-daily-painting:hover {
-  background: rgba(255, 255, 255, 0.45);
+/* 2026-07-07 起,所有"纯粹改变颜色/阴影/位移"的 :hover 规则都包一层
+   @media (hover: hover) and (pointer: fine)——手机/触屏浏览器长期有个
+   怪癖:CSS 的 :hover 伪类会在手指刚触碰屏幕(甚至只是划过、还没真的
+   点下去)那一刻就短暂进入"命中"状态,不是只有鼠标真正悬停才触发,
+   表现就是"我还没点,颜色就变了"(用户截图里搜索结果那一行背景色就是
+   这么触发的)。(hover: hover) 这个媒体特性只有真的支持鼠标悬停的
+   设备(桌面)才会判真,触屏设备恒为假,规则整个不参与匹配,连带
+   :hover 伪类在触屏上就没有生效的机会,一并绕开了这个浏览器怪癖——
+   比在 JS 里判断设备类型更彻底,纯 CSS 层面解决。:active(按下反馈)
+   不受影响、继续在所有设备生效,那是真实的"手指按下"状态,触屏上
+   出现完全合理。下面每处只搬"改变外观"的 hover 规则,其余样式原地
+   不动,方便对照上下文 */
+@media (hover: hover) and (pointer: fine) {
+  .workbench .wb-daily-painting:hover {
+    background: rgba(255, 255, 255, 0.45);
+  }
 }
 .workbench .wb-daily-painting:active {
   background: rgba(255, 255, 255, 0.3);
@@ -552,8 +566,10 @@
   -webkit-line-clamp: 8;
   overflow: hidden;
 }
-.workbench .wb-reunion:hover {
-  background: rgba(255, 255, 255, 0.45);
+@media (hover: hover) and (pointer: fine) {
+  .workbench .wb-reunion:hover {
+    background: rgba(255, 255, 255, 0.45);
+  }
 }
 .workbench .wb-reunion:active {
   background: rgba(255, 255, 255, 0.3);
@@ -629,16 +645,18 @@
    这是纯鼠标 hover 触发的效果,跟 工作台.md 里点击换一篇时用 Web
    Animations API 播的那次性 0→360 动画各管一路、互不冲突:hover 是
    桌面端划过去的即时反馈,click 是换内容时的确认反馈,两者可以共存 */
-.workbench .wb-reunion-reroll:hover .wb-reroll-glyph {
-  transform: rotate(360deg);
-}
-.workbench .wb-reunion-reroll:hover {
-  box-shadow:
-    inset 1px 1px 1px rgba(255, 255, 255, 1),
-    -4px -4px 10px rgba(255, 255, 255, 0.9),
-    6px 9px 18px rgba(99, 110, 146, 0.2),
-    -6px 5px 12px rgba(180, 214, 242, 0.65),
-    6px 5px 12px rgba(243, 205, 240, 0.6);
+@media (hover: hover) and (pointer: fine) {
+  .workbench .wb-reunion-reroll:hover .wb-reroll-glyph {
+    transform: rotate(360deg);
+  }
+  .workbench .wb-reunion-reroll:hover {
+    box-shadow:
+      inset 1px 1px 1px rgba(255, 255, 255, 1),
+      -4px -4px 10px rgba(255, 255, 255, 0.9),
+      6px 9px 18px rgba(99, 110, 146, 0.2),
+      -6px 5px 12px rgba(180, 214, 242, 0.65),
+      6px 5px 12px rgba(243, 205, 240, 0.6);
+  }
 }
 .workbench .wb-reunion-reroll:active {
   transform: scale(0.92);
@@ -695,9 +713,11 @@
   cursor: pointer;
   transition: box-shadow 0.3s var(--wb-ease), transform 0.3s var(--wb-ease);
 }
-.workbench .wb-card:hover {
-  box-shadow: var(--wb-shadow-hover);
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .workbench .wb-card:hover {
+    box-shadow: var(--wb-shadow-hover);
+    transform: translateY(-2px);
+  }
 }
 .workbench .wb-card:active {
   box-shadow: var(--wb-shadow-flat);
@@ -724,17 +744,21 @@
 }
 /* ➕ 新建笔记:2026-07-07 改回普通胶囊——第一版套用了"随机重逢"换一篇
    按钮的圆形玻璃拟物 CSS,用户反馈"还是要胶囊的样子",撤掉圆钮外观,
-   跟其他五颗共用 .wb-card 的胶囊底/圆角/阴影,只把它推到行最右(草图
-   位置)。转一圈的动效保留,但只作用在图标 span 上,不影响胶囊整体形状 */
-.workbench .wb-cards .wb-newnote {
-  margin-left: auto;
-}
+   跟其他五颗共用 .wb-card 的胶囊底/圆角/阴影。
+   2026-07-07 二次调整:去掉了 margin-left:auto——那是想把它推到行最
+   右,但手机窄屏下 flex-wrap 换行决策不考虑 auto margin(margin 在
+   换行判定阶段按 0 算,换行之后才展开吃掉剩余空间),导致它跟"最近
+   编辑"挤在同一折行里、又被这份 auto margin 硬推向右边界,在窄屏上
+   直接被推出可视区、截断看不全。改回普通文档流,就老老实实跟在"最近
+   编辑"后面,该换行时正常换行,不再有推到边界外的问题 */
 .workbench .wb-newnote-glyph {
   display: inline-block;
   transition: transform 0.4s var(--wb-ease);
 }
-.workbench .wb-newnote:hover .wb-newnote-glyph {
-  transform: rotate(360deg);
+@media (hover: hover) and (pointer: fine) {
+  .workbench .wb-newnote:hover .wb-newnote-glyph {
+    transform: rotate(360deg);
+  }
 }
 /* 页内面板:跟其他卡片同一套底/圆角/阴影;上边距收回一点贴着胶囊行
    (wb-cards 自带 18px 下边距,不收会离得太开),展开时复用入场动画
@@ -798,8 +822,10 @@
   cursor: pointer;
   transition: background 0.2s ease;
 }
-.workbench .wb-panel-row:hover {
-  background: var(--wb-accent-soft);
+@media (hover: hover) and (pointer: fine) {
+  .workbench .wb-panel-row:hover {
+    background: var(--wb-accent-soft);
+  }
 }
 .workbench .wb-panel-row-title {
   font-size: 0.9em;
@@ -824,8 +850,10 @@
   text-align: center;
   cursor: pointer;
 }
-.workbench .wb-panel-more:hover {
-  text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+  .workbench .wb-panel-more:hover {
+    text-decoration: underline;
+  }
 }
 /* 笔记面板顶部那排分类小方卡(草图第一屏的方块):跟嵌套 write/note
    一个思路,用比面板更沉一档的 secondary 底 + 浅阴影区分层级 */
@@ -847,9 +875,11 @@
   cursor: pointer;
   transition: box-shadow 0.3s var(--wb-ease), transform 0.3s var(--wb-ease), background 0.3s var(--wb-ease);
 }
-.workbench .wb-cat-card:hover {
-  box-shadow: var(--wb-shadow);
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .workbench .wb-cat-card:hover {
+    box-shadow: var(--wb-shadow);
+    transform: translateY(-2px);
+  }
 }
 .workbench .wb-cat-num {
   font-size: 1.15em;
@@ -893,8 +923,10 @@
   box-shadow: var(--wb-shadow);
   transition: box-shadow 0.3s var(--wb-ease);
 }
-.workbench .callout:hover {
-  box-shadow: var(--wb-shadow-hover-subtle);
+@media (hover: hover) and (pointer: fine) {
+  .workbench .callout:hover {
+    box-shadow: var(--wb-shadow-hover-subtle);
+  }
 }
 .workbench .callout-title { font-size: 1.02em; font-weight: 700; align-items: center; }
 .workbench .callout-icon { display: none; } /* 标题里已有 emoji */
@@ -963,8 +995,10 @@
   text-underline-offset: 3px;
   transition: text-decoration-color 0.2s ease, color 0.2s ease;
 }
-.workbench .callout a:hover {
-  text-decoration-color: currentColor;
+@media (hover: hover) and (pointer: fine) {
+  .workbench .callout a:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 /* "你的回答"输入区:之前给它加过强调色左边框,用户 2026-07-05 反馈
@@ -977,8 +1011,10 @@
   background: var(--background-secondary);
   box-shadow: var(--wb-shadow-flat);
 }
-.workbench .callout[data-callout="write"]:hover {
-  box-shadow: var(--wb-shadow);
+@media (hover: hover) and (pointer: fine) {
+  .workbench .callout[data-callout="write"]:hover {
+    box-shadow: var(--wb-shadow);
+  }
 }
 .workbench .callout[data-callout="write"] .callout-title {
   color: var(--text-muted);
@@ -1005,8 +1041,10 @@
   box-shadow: var(--wb-shadow-flat);
   transition: box-shadow 0.3s var(--wb-ease);
 }
-.workbench .callout[data-callout="note"]:hover {
-  box-shadow: var(--wb-shadow);
+@media (hover: hover) and (pointer: fine) {
+  .workbench .callout[data-callout="note"]:hover {
+    box-shadow: var(--wb-shadow);
+  }
 }
 .workbench .callout[data-callout="note"] .callout-title { color: var(--text-muted); }
 /* 2026-07-06 起"我的看法"包进问题卡片内部,变成嵌套子 callout——
