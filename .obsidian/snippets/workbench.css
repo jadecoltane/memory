@@ -397,27 +397,24 @@
      本来就没有多余高度,不受影响 */
   align-content: flex-start;
 }
-/* 今日内容不再有顶层折叠壳:抽卡/延伸、问题1/问题2、回答1/回答2
-   都是页面顶层的 callout,靠页面级卡片网格(下面的 :has() 规则)
-   横排成一行。用通配符 * 选中"包含这个 callout 的顶层子元素",
-   不猜 Obsidian 具体给 callout 包了什么 wrapper class(试过
-   .el-blockquote 不生效)。
-   我的看法(note)2026-07-06 起不再是顶层块——用户要求把它包进问题
-   卡片内部,变成 [!ask] 里嵌套的子 callout,不再单独占一排;下面
-   note 相关的 :has() 选择器留着是因为它是"后代"选择器(没有 >),
-   嵌套在 ask 内部依然能命中,让外层顶层块拿到同一份 flex-basis,
-   不会因为多命中一条规则而改变布局(数值和 ask 那条完全一样)。 */
-/* flex-basis 用 max(280px, 40%):宽屏时 40% 保证一行最多塞两张
-   (三张 40% 超过 100% 必换行),于是固定配对——抽卡+延伸一排、
-   问题1+问题2一排、回答1+回答2一排;窄屏时 280px 兜底,放不下两张
-   就自然堆叠。 */
-.workbench .markdown-preview-sizer > *:has(> .callout[data-callout="draw"]),
-.workbench .markdown-preview-sizer > *:has(> .callout[data-callout="seed"]),
+/* 今日内容不再有顶层折叠壳:抽卡、延伸、问题1/问题2 都是页面顶层的
+   callout。用通配符 * 选中"包含这个 callout 的顶层子元素",不猜
+   Obsidian 具体给 callout 包了什么 wrapper class(试过 .el-blockquote
+   不生效)。
+   我的看法(note)2026-07-06 起、回答(write)2026-07-07 起都不再是
+   顶层块——都被包进问题卡片内部,变成 [!ask] 里嵌套的子 callout,
+   不再单独占一排;下面 note/write 相关的 :has() 选择器留着是因为
+   它是"后代"选择器(没有 >),嵌套在 ask 内部依然能命中,让外层顶层块
+   拿到同一份 flex-basis,不会因为多命中一条规则而改变布局(数值和
+   ask 那条完全一样)。
+   2026-07-07 用户要求:抽卡、延伸不再并排,各自独占一行;只有问题1/
+   问题2 还需要并排——所以这份"限宽到 40%,允许横排"的名单里去掉了
+   draw/seed,只留 ask(以及嵌在 ask 里的 write/note,用于同步高度)。
+   draw/seed 不在名单里,就沿用最上面通用规则的 flex: 1 1 100%,
+   各自撑满一整行。 */
 .workbench .markdown-preview-sizer > *:has(> .callout[data-callout="ask"]),
 .workbench .markdown-preview-sizer > *:has(> .callout[data-callout="write"]),
 .workbench .markdown-preview-sizer > *:has(> .callout[data-callout="note"]),
-.workbench .markdown-preview-sizer > *:has(.callout[data-callout="draw"]),
-.workbench .markdown-preview-sizer > *:has(.callout[data-callout="seed"]),
 .workbench .markdown-preview-sizer > *:has(.callout[data-callout="ask"]),
 .workbench .markdown-preview-sizer > *:has(.callout[data-callout="write"]),
 .workbench .markdown-preview-sizer > *:has(.callout[data-callout="note"]) {
@@ -429,18 +426,10 @@
    note(我的看法)不在这份名单里——它默认折叠,如果强制撑满行高,
    一旦配对的另一张折叠高度不同就会在标题下方露出一块空白
    (用户 2026-07-05 反馈过这个空白),折叠卡片没必要跟着对齐 */
-.workbench .markdown-preview-sizer > *:has(.callout[data-callout="draw"]) .callout,
-.workbench .markdown-preview-sizer > *:has(.callout[data-callout="seed"]) .callout,
 .workbench .markdown-preview-sizer > *:has(.callout[data-callout="ask"]) .callout,
 .workbench .markdown-preview-sizer > *:has(.callout[data-callout="write"]) .callout {
   height: 100%;
   box-sizing: border-box;
-}
-/* 抽卡/延伸这一行:2026-07-06 试过 6:4 的视觉特权比例,当天晚些时候
-   用户改主意要求跟问题/回答/看法的配对行一样,退回 50/50 平分 */
-.workbench .markdown-preview-sizer > *:has(.callout[data-callout="draw"]),
-.workbench .markdown-preview-sizer > *:has(.callout[data-callout="seed"]) {
-  flex: 1 1 max(280px, 40%);
 }
 /* 名画横幅 + 随机重逢横排成一行(2026-07-06 用户要求):画作横幅已经
    拆成独立顶层块(见 工作台.md 里的拆分说明)。2026-07-06 二次调整:
@@ -542,6 +531,11 @@
   box-shadow: none;
   cursor: pointer;
   transition: background 0.3s var(--wb-ease);
+  /* 2026-07-07 用户反馈:问候语/名画都有入场渐现,随机重逢没有。顶层
+     的 wb-rise-in 规则(见文件底部)理论上作用于它外面那层 sizer 直接
+     子元素,视觉上应该连带渐现——但实测这张卡片没跟着显现,直接把同一
+     动画钉在卡片本身上,不依赖祖先链是否完整传导 */
+  animation: wb-rise-in 0.5s var(--wb-ease) 0.14s backwards;
 }
 /* 摘要区用 flex:1 吃掉剩余空间,文字在这份空间里垂直居中,让内容看起来
    "填满"整张卡片,而不是顶头堆一截、底下留白;内层 .wb-reunion-excerpt-text
@@ -756,6 +750,57 @@
 .workbench .callout[data-callout="seed"] .callout-title,
 .workbench .callout[data-callout="ask"] .callout-title { color: var(--text-normal); }
 
+/* ===== 2026-07-07 反"平铺感"(用户嫌下半页几张全白卡片视觉权重
+   完全相同,没有落点)===== */
+/* 曾经给"今日抽卡"铺过一层 --wb-accent-soft 柔光底当"主角"信号,
+   当天用户反馈这个色块不好看,已撤销——不要再给某张卡单独上色,
+   draw 跟其余卡一样用通用的 .workbench .callout 素色背景,靠下面
+   ②的胶囊标题分层就够,不需要额外的背景色区分。 */
+/* ② 胶囊标题:每张卡都用同级"emoji+粗体"标题开头是平铺感的另一个
+   来源——标题降格成跟"随机重逢"🎲 标签同款的小胶囊,同一套设计语言,
+   内容升为主角。只作用于顶层内容卡的标题(> .callout-title 保证不会
+   命中嵌套 note/write 的标题,它们保持素色抽屉/输入区的样子);
+   display:inline-flex 让胶囊按文字收缩,不横向拉通整行 */
+.workbench .callout[data-callout="draw"] > .callout-title,
+.workbench .callout[data-callout="seed"] > .callout-title,
+.workbench .callout[data-callout="ask"] > .callout-title,
+.workbench .callout[data-callout="clash"] > .callout-title,
+.workbench .callout[data-callout="feed"] > .callout-title {
+  display: inline-flex;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--wb-accent-text);
+  background: var(--wb-accent-soft);
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 0.3em;
+}
+/* ③ 幽灵数字:问题1/2 右上角一个超大的半透明数字水印,零颜色成本
+   给两张问题卡加辨识度和质感。数字用 CSS counter 自动数,不依赖
+   标题文字;opacity 压到 0.07,即使跟第一行文字重叠也只是隐约的
+   底纹,pointer-events:none 不挡点击 */
+.workbench .markdown-preview-sizer,
+.workbench .cm-sizer {
+  counter-reset: wb-ask;
+}
+.workbench .callout[data-callout="ask"] {
+  position: relative;
+  counter-increment: wb-ask;
+}
+.workbench .callout[data-callout="ask"]::after {
+  content: counter(wb-ask);
+  position: absolute;
+  top: 2px;
+  right: 20px;
+  font-size: 5em;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--wb-accent-text);
+  opacity: 0.07;
+  pointer-events: none;
+}
+
 /* 卡片内的链接:默认不常亮下划线,hover 时才淡入,比一直亮着的下划线
    更克制、也更有"轻交互反馈"的愉悦感 */
 .workbench .callout a {
@@ -822,6 +867,26 @@
 }
 .workbench .callout .callout[data-callout="note"]:hover {
   box-shadow: none;
+}
+/* 2026-07-07 问答合体:「你的回答」不再是独立顶层卡片(只有一行标题+
+   大片空白的空卡看着像 UI 没加载完,而且跟问题卡隔着一整行 gap,
+   配对关系读不出来),并进对应问题卡内部,嵌在"我的看法"抽屉后面
+   (结构见 meta/WORKBENCH.md)。样式做成"卡片里的输入井":比嵌套
+   note 抽屉再沉一档——inset 阴影模拟微微凹进去的书写区,跟抽屉
+   (平面、无阴影)区分开。前面顶层 write 的规则(background-secondary、
+   min-height、标题 muted)对嵌套形态照样命中,这里只覆盖嵌套特有的
+   圆角/间距/凹陷,并压掉顶层规则里的 hover 阴影变化(输入区不需要
+   hover 反馈,它不是可点击的卡) */
+.workbench .callout .callout[data-callout="write"],
+.workbench .callout .callout[data-callout="write"]:hover {
+  margin-top: 0.8em;
+  border-radius: var(--wb-radius-sm);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.07);
+}
+.theme-dark .workbench .callout .callout[data-callout="write"],
+.theme-dark .workbench .callout .callout[data-callout="write"]:hover {
+  background: rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* 分隔线弱化成渐隐细线 */
