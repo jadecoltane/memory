@@ -569,7 +569,8 @@
   justify-content: space-between;
   margin-bottom: 5px;
 }
-.workbench .wb-reunion-tag {
+.workbench .wb-reunion-tag,
+.workbench .wb-painting-tag {
   font-size: 0.76em;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -577,6 +578,13 @@
   background: var(--wb-accent-soft);
   padding: 3px 10px;
   border-radius: 999px;
+}
+/* 名画卡的标签("🖼 今日画作")没有像随机重逢那样套一层 wb-reunion-head
+   (那层是给标签+换一篇按钮做左右分布用的,这里只有一个标签,不需要
+   额外套壳),直接给标签自己补一个底部间距,跟标题隔开 */
+.workbench .wb-painting-tag {
+  display: inline-block;
+  margin-bottom: 8px;
 }
 /* 换一篇按钮:2026-07-06 按用户给的 figma 拟物教程(Wojciech Zieliński
    的 button 复刻)重做成"玻璃感圆钮",教程步骤逐条翻译成 CSS:
@@ -744,15 +752,15 @@
    跟其他五颗共用 .wb-card 的胶囊底/圆角/阴影,不做任何强制换行/占满
    一行的处理,就在普通文档流里跟在"最近编辑"后面,该不该跟它同一行
    全交给 flex-wrap 按当前宽度自然决定。
-   之前怀疑过是 margin-left:auto 在窄屏换行边界上算错导致它被截断,
-   撤了 auto margin 后又观察到"点开/收起本周新增面板"会让它的位置在
-   同一行/换行之间跳动——一度以为是取整误差,试过强制它单独占一整行
-   规避,但用户反馈这也不是他们想要的效果(要求恢复"跟在最近编辑后面"
-   的默认流式布局)。真正的根因转移到了"本周新增"面板本身:那个面板
-   之前支持"展开全部"把列表撑得很长,页面总高度的剧烈变化很可能才是
-   触发那次跳动的真正原因,而不是这颗胶囊自己的样式问题——对应的修复
-   是 工作台.md 里把 weekPanel 也改成固定 8 条、不再支持展开,跟"最近
-   编辑"一致 */
+   排查这颗胶囊"点开/收起本周新增面板"后位置会跳的过程走了两次弯路:
+   先怀疑是 margin-left:auto 换行判定算错(已撤销该属性),又怀疑是
+   "本周新增"支持展开全部导致页面变高影响了换行(试过把它硬顶 8 条,
+   用户否了,要求保留展开)。真正根因其实是 .wb-panel-row-title 缺
+   min-width:0,长标题没被正常裁出省略号,而是把整行、进而把整个页面
+   推宽出了视口——页面一旦整体变宽,上面这排胶囊的换行结果自然跟着变,
+   看起来就像"胶囊在跳",其实是页面本身在跳。根治见下面
+   .wb-panel-row-title 的 min-width:0,这颗胶囊自己的样式从头到尾都
+   没问题 */
 .workbench .wb-newnote-glyph {
   display: inline-block;
   transition: transform 0.4s var(--wb-ease);
@@ -830,6 +838,16 @@
   }
 }
 .workbench .wb-panel-row-title {
+  /* 2026-07-07 修:flex 子元素默认 min-width:auto,意思是"最小也不能
+     小于文字本身的完整宽度"——text-overflow:ellipsis 想生效必须先能
+     被压缩到比文字本身窄,min-width:auto 直接把这条路堵死了,所以长
+     标题从来没有真正被裁出省略号,而是整行被推宽,右边的日期跟着一起
+     被推出屏幕外(移动端表现为"本周新增这个面板右边超出了屏幕",红框
+     标出来的其实是被推出去的日期文字)。flex:1 1 0 + min-width:0 让它
+     可以缩到比文字窄,多出来的部分才会被 overflow:hidden 裁掉、露出
+     省略号,日期(flex:none,宽度固定)也就能一直老实待在可视区内了 */
+  flex: 1 1 0;
+  min-width: 0;
   font-size: 0.9em;
   color: var(--text-normal);
   overflow: hidden;
