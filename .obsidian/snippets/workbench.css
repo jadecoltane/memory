@@ -518,12 +518,20 @@
    2026-07-06 三次调整:改成跟名画横幅同款的毛玻璃——半透明白底
    (rgba(255,255,255,0.35))+ backdrop-filter 模糊透出页面渐变,不再
    直接铺不透明的 --wb-page-gradient(那样看不出模糊感,只是纯色块);
-   阴影也去掉,跟名画横幅一致靠模糊的半透明底自己撑边界 */
+   阴影也去掉,跟名画横幅一致靠模糊的半透明底自己撑边界。
+   2026-07-07 修:之前靠摘要字数(90→320 字)硬凑高度去贴近名画横幅,
+   本质是猜——画作是横是竖、笔记是长是短每天都不一样,固定字数只在
+   "凑巧差不多高"的日子好看,笔记一长、画作一矮就会反过来把名画卡片
+   撑出一截空白(见 工作台.md 里 ResizeObserver 那段注释)。改成用
+   ResizeObserver 实时量名画卡片的真实渲染高度,写成这里的 max-height,
+   加 overflow:hidden 兜底裁掉超出部分,配合下面摘要区的 line-clamp
+   出省略号,不再靠字数瞎猜 */
 .workbench .wb-reunion {
   display: flex;
   flex-direction: column;
   gap: 5px;
   height: 100%;
+  overflow: hidden;
   box-sizing: border-box;
   margin: 0;
   padding: 16px 20px;
@@ -535,13 +543,23 @@
   cursor: pointer;
   transition: background 0.3s var(--wb-ease);
 }
-/* 卡片被撑到跟名画横幅一样高之后,标签+标题只占一小截,下面一大片
-   空白很难看——摘要区用 flex:1 吃掉剩余空间,文字在这份空间里垂直
-   居中,让内容看起来"填满"整张卡片,而不是顶头堆一截、底下留白 */
+/* 摘要区用 flex:1 吃掉剩余空间,文字在这份空间里垂直居中,让内容看起来
+   "填满"整张卡片,而不是顶头堆一截、底下留白;内层 .wb-reunion-excerpt-text
+   才是真正做多行省略号裁切的元素(-webkit-line-clamp 需要 display:
+   -webkit-box,没法跟外层的 flex 垂直居中共用在同一个元素上,所以拆两层:
+   外层负责居中,内层负责裁切) */
 .workbench .wb-reunion-excerpt {
   flex: 1;
   display: flex;
   align-items: center;
+  min-height: 0;
+  overflow: hidden;
+}
+.workbench .wb-reunion-excerpt-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 8;
+  overflow: hidden;
 }
 .workbench .wb-reunion:hover {
   background: rgba(255, 255, 255, 0.45);
