@@ -594,13 +594,22 @@
 .workbench .wb-reunion-excerpt-text {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  /* 2026-07-07 8→14:配合 工作台.md 里摘要字数上限从 500 提到 1500——
-     字数给够了,这个行数上限也得跟着放宽,不然文字明明够、却先被这条
-     卡住,等于白给。真正卡视觉高度的还是外层 .wb-reunion 的
-     max-height(见 syncReunionHeight),这里的 14 只是个宽松上限,
-     防止极端情况下文字量爆炸式撑高 */
+  /* 2026-07-07 8→14 这个改动的前提只在宽屏成立:.wb-reunion 的
+     max-height 是靠 syncReunionHeight 量画作卡片高度设的,但那段 JS
+     在窄屏(≤520px)会显式清空 max-height(见 工作台.md)——窄屏下两张
+     卡各占一行堆叠,没有"跟画作等高"这回事,随机重逢卡片本该按内容
+     自然撑高。放宽到 14 行是为了在"有 max-height 硬顶"的宽屏场景下
+     给内容更多机会填满高度;窄屏没有这个硬顶,14 行 × 1500 字上限
+     反而会把手机上的卡片撑出一大截(用户截图里"随机重逢内容超出了"
+     就是这个)。改成响应式:宽屏保留 14,窄屏用下面媒体查询降回更
+     紧凑的行数,不依赖任何高度硬顶也能保持卡片大小合理 */
   -webkit-line-clamp: 14;
   overflow: hidden;
+}
+@media (max-width: 520px) {
+  .workbench .wb-reunion-excerpt-text {
+    -webkit-line-clamp: 8;
+  }
 }
 @media (hover: hover) and (pointer: fine) {
   .workbench .wb-reunion:hover {
