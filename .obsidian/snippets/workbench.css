@@ -534,10 +534,6 @@
   cursor: pointer;
   transition: background 0.3s var(--wb-ease);
 }
-/* 随机重逢的入场/滚动渐现不再在这里单独写一份——2026-07-07 三次修
-   已经把这套逻辑收整到文件底部"入场动画"那一节,统一用
-   .wb-scroll-reveal 这个 class 驱动、对页面所有顶层块生效,原因和
-   历史见那一节的注释 */
 /* 摘要区用 flex:1 吃掉剩余空间,文字在这份空间里垂直居中,让内容看起来
    "填满"整张卡片,而不是顶头堆一截、底下留白;内层 .wb-reunion-excerpt-text
    才是真正做多行省略号裁切的元素(-webkit-line-clamp 需要 display:
@@ -922,53 +918,4 @@
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, var(--wb-accent-line), transparent);
-}
-
-/* ===== 入场动画:每次打开工作台、以及之后每次滚动经过,顶层卡片
-   按顺序轻轻浮现 =====
-   2026-07-05 起要求"加点让人愉悦的交互效果",一开始靠 CSS 的
-   animation...backwards 让元素"刚被创建"那一刻自动播一次——2026-07-07
-   发现这个办法在 Obsidian 阅读视图里不可靠:长笔记会分段懒渲染,滚出
-   视口的块可能被卸载、滚回来时重新创建 DOM 从而"意外"重播了动画,
-   但具体哪些块会被卸载全凭 Obsidian 内部调度,今天画作被卸载重建了、
-   随机重逢没有,同一批卡片表现不一致,用户要求所有卡片用同一套确定性
-   触发时机。改成不再自动播:动画只在元素带有 wb-scroll-reveal 这个
-   class 时才生效,这个 class 由 工作台.md 最后一个 dataviewjs 代码块里
-   的 IntersectionObserver 统一控制——不管 Obsidian 有没有卸载重建某块
-   DOM,只要它真的滚进可视区域就会被摘掉再挂上这个 class,强制重播一次,
-   所有顶层块共用同一份 observer、同一套触发逻辑。
-   nth-child 错开延迟还是按 sizer 的直接子元素定位(不是所有点了这个
-   class 的元素都在同一层级),保留下来是为了让首次进入视口时仍然有
-   "按顺序一件件浮现"的错落感,而不是全部同时跳出来。
-   尊重"减少动态效果"系统设置的用户,直接关掉动画 */
-@keyframes wb-rise-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.workbench .wb-scroll-reveal {
-  animation: wb-rise-in 0.5s var(--wb-ease);
-}
-.workbench .markdown-preview-sizer > *:nth-child(1).wb-scroll-reveal,
-.workbench .cm-sizer > *:nth-child(1).wb-scroll-reveal { animation-delay: 0.02s; }
-.workbench .markdown-preview-sizer > *:nth-child(2).wb-scroll-reveal,
-.workbench .cm-sizer > *:nth-child(2).wb-scroll-reveal { animation-delay: 0.08s; }
-.workbench .markdown-preview-sizer > *:nth-child(3).wb-scroll-reveal,
-.workbench .cm-sizer > *:nth-child(3).wb-scroll-reveal { animation-delay: 0.14s; }
-.workbench .markdown-preview-sizer > *:nth-child(4).wb-scroll-reveal,
-.workbench .cm-sizer > *:nth-child(4).wb-scroll-reveal { animation-delay: 0.20s; }
-.workbench .markdown-preview-sizer > *:nth-child(5).wb-scroll-reveal,
-.workbench .cm-sizer > *:nth-child(5).wb-scroll-reveal { animation-delay: 0.26s; }
-.workbench .markdown-preview-sizer > *:nth-child(6).wb-scroll-reveal,
-.workbench .cm-sizer > *:nth-child(6).wb-scroll-reveal { animation-delay: 0.32s; }
-.workbench .markdown-preview-sizer > *:nth-child(7).wb-scroll-reveal,
-.workbench .cm-sizer > *:nth-child(7).wb-scroll-reveal { animation-delay: 0.38s; }
-.workbench .markdown-preview-sizer > *:nth-child(8).wb-scroll-reveal,
-.workbench .cm-sizer > *:nth-child(8).wb-scroll-reveal { animation-delay: 0.44s; }
-.workbench .markdown-preview-sizer > *:nth-child(n+9).wb-scroll-reveal,
-.workbench .cm-sizer > *:nth-child(n+9).wb-scroll-reveal { animation-delay: 0.5s; }
-@media (prefers-reduced-motion: reduce) {
-  .workbench .wb-scroll-reveal,
-  .workbench .wb-banner-img::before {
-    animation: none !important;
-  }
 }

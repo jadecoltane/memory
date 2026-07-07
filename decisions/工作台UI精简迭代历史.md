@@ -33,6 +33,7 @@ last-verified: 2026-07-07
   - 二次调整:问题卡内部"你的回答"和"我的看法"顺序互换,回答区提到看法前面——用户写自己的答案时不想先看到 AI 的看法,避免被提前锚定;`meta/WORKBENCH.md` 生成规范已同步改顺序
   - 三次修:随机重逢下滑再上滑不会像问候语/名画那样重新渐现——根源是 Obsidian 阅读视图对长笔记分段懒渲染,画作那块滚出视口会被卸载、滚回来重新创建 DOM 从而重播"刚创建就播一次"的入场动画,随机重逢这块没被卸载重建,动画没有重新播放的触发时机。改成用 IntersectionObserver 直接盯可视区域交叉,不依赖 DOM 是否被重建,每次滚进视口强制切一次 `wb-scroll-reveal` class 重播动画
   - 四次修:用户要求所有顶层卡片的渐现触发时机统一,不能只有随机重逢用 IntersectionObserver、其余还是"元素创建时播一次"(等于各凭 Obsidian 卸载/重建的运气)。把这套逻辑从随机重逢代码块挪到 工作台.md 最后一个 dataviewjs 块(统计卡),扩大到 `document.querySelectorAll(".markdown-preview-sizer > *, .cm-sizer > *")` 全量观察;CSS 里入场动画也从"顶层子元素默认全部 backwards 自动播"改成"只有带 wb-scroll-reveal class 才播",nth-child 错开延迟保留、只是加了 class 限定条件
+  - **五次修,直接砍掉**:统一成 IntersectionObserver 之后用户反馈"好奇怪",要求把入场/滚动渐现整个功能撤掉——2026-07-05 加的这套"打开/滚动时卡片轻轻浮现"的效果,连同 2026-07-07 当天为了修它反复调整的三版(mount-time backwards → 随机重逢单独 IntersectionObserver → 全局统一 IntersectionObserver),全部移除。工作台.md 里最后一个 dataviewjs 块的 observer 代码、workbench.css 里 `wb-rise-in`/`wb-scroll-reveal`/nth-child 延迟表/reduced-motion 覆盖,连同随机重逢卡片base rule 上残留的指向注释,都已删干净。**以后不要再往工作台加"整页卡片入场浮现"这类效果,这条路已经反复试过又被否决**,跟前面"不要引入第二套颜色""不要给单张卡片上色"是同一类不要再犯的坑
 
 # 为什么统一收在这一篇
 
