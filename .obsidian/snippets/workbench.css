@@ -594,7 +594,12 @@
 .workbench .wb-reunion-excerpt-text {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 8;
+  /* 2026-07-07 8→14:配合 工作台.md 里摘要字数上限从 500 提到 1500——
+     字数给够了,这个行数上限也得跟着放宽,不然文字明明够、却先被这条
+     卡住,等于白给。真正卡视觉高度的还是外层 .wb-reunion 的
+     max-height(见 syncReunionHeight),这里的 14 只是个宽松上限,
+     防止极端情况下文字量爆炸式撑高 */
+  -webkit-line-clamp: 14;
   overflow: hidden;
 }
 @media (hover: hover) and (pointer: fine) {
