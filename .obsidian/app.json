@@ -9,7 +9,10 @@
     "pitfalls/",
     "insights/",
     "meta/",
-    "profile/"
+    "profile/",
+    "notes/问答/",
+    "工作台.md",
+    "claude.md"
   ],
   "showUnsupportedFiles": true,
   "promptDelete": false
