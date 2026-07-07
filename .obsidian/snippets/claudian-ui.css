@@ -1,0 +1,32 @@
+/* ============================================================
+   Claudian UI 微调 — 让用户消息气泡更好看
+   ============================================================ */
+
+/* 用户消息气泡：黑底 → 柔和紫色磨砂玻璃 */
+.claudian-message-user {
+  background: rgba(167, 139, 250, 0.10) !important;
+  border: 1px solid rgba(167, 139, 250, 0.22) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* 深色模式下稍微亮一点，让文字更易读 */
+.theme-dark .claudian-message-user {
+  background: rgba(167, 139, 250, 0.13) !important;
+  border-color: rgba(167, 139, 250, 0.28) !important;
+}
+
+/* 浅色模式适配 */
+.theme-light .claudian-message-user {
+  background: rgba(99, 102, 241, 0.08) !important;
+  border-color: rgba(99, 102, 241, 0.2) !important;
+}
+
+/* ============================================================
+   覆盖 Border 主题的加粗红色 → 紫色（全局生效，笔记+面板）
+   深色：#a78bfa（violet-400，和工作台渐变同色系）
+   浅色：#7c3aed（violet-600，深一点保证可读性）
+   ============================================================ */
+body {
+  --bold-color: inherit !important;   /* 加粗 = 正文色 + 粗体，不另加颜色 */
+}

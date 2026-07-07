@@ -1,0 +1,10 @@
+{
+  "cssTheme": "Border",
+  "enabledCssSnippets": [
+    "workbench",
+    "hide-infra",
+    "quiet-notes",
+    "claudian-ui"
+  ],
+  "showRibbon": false
+}
