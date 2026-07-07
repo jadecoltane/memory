@@ -533,11 +533,19 @@
   box-shadow: none;
   cursor: pointer;
   transition: background 0.3s var(--wb-ease);
-  /* 2026-07-07 用户反馈:问候语/名画都有入场渐现,随机重逢没有。顶层
-     的 wb-rise-in 规则(见文件底部)理论上作用于它外面那层 sizer 直接
-     子元素,视觉上应该连带渐现——但实测这张卡片没跟着显现,直接把同一
-     动画钉在卡片本身上,不依赖祖先链是否完整传导 */
-  animation: wb-rise-in 0.5s var(--wb-ease) 0.14s backwards;
+}
+/* 2026-07-07 二次修:先前把 wb-rise-in 直接钉死在 .wb-reunion 上,
+   指望跟画作一样"每次挂载都从 backwards 状态播一遍"——但实测下滑再上
+   滑回来时画作有渐现、随机重逢没有,说明这张卡片在这次滚动里根本没
+   被重新创建 DOM(Obsidian 阅读视图对长笔记会分段懒渲染/卸载屏幕外
+   内容,画作那块被卸载重建了,随机重逢这块没有,只是运气不好没触发),
+   静态动画只在"元素刚被创建"那一刻播一次,元素没被摧毁重建就永远不会
+   再播。改成不依赖挂载时机,靠 IntersectionObserver 在元素真正进入
+   视口的那一刻主动切一次 class(工作台.md 里 reunion 代码块末尾),
+   不管 Obsidian 到底有没有卸载重建这个 DOM 节点,只要它滚动进了可视
+   区域就重新播一遍,行为可控、可预期 */
+.workbench .wb-reunion.wb-scroll-reveal {
+  animation: wb-rise-in 0.5s var(--wb-ease) backwards;
 }
 /* 摘要区用 flex:1 吃掉剩余空间,文字在这份空间里垂直居中,让内容看起来
    "填满"整张卡片,而不是顶头堆一截、底下留白;内层 .wb-reunion-excerpt-text
