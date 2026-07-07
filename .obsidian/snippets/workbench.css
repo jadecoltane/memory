@@ -919,3 +919,44 @@
   height: 1px;
   background: linear-gradient(90deg, var(--wb-accent-line), transparent);
 }
+
+/* ===== 入场动画:打开工作台时顶层卡片从上到下依次轻轻浮现 =====
+   2026-07-07 重加:之前这套效果为了"滚动经过也要重新渐现"扯出一整套
+   IntersectionObserver + JS 联动,用户反馈太怪,整个删掉过一次(见
+   decisions/工作台UI精简迭代历史)。这次只要"打开时从上到下浮现"这一个
+   朴素效果,不追求滚动重播——纯 CSS 就够,不需要任何 JS 配合,靠
+   animation...backwards 让元素从创建那一刻起就是"未播放前"的初始帧
+   (opacity:0),避免闪一下已渲染内容再消失重播的问题。
+   尊重"减少动态效果"系统设置的用户,直接关掉动画 */
+@keyframes wb-rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.workbench .markdown-preview-sizer > *,
+.workbench .cm-sizer > * {
+  animation: wb-rise-in 0.5s var(--wb-ease) backwards;
+}
+.workbench .markdown-preview-sizer > *:nth-child(1),
+.workbench .cm-sizer > *:nth-child(1) { animation-delay: 0.02s; }
+.workbench .markdown-preview-sizer > *:nth-child(2),
+.workbench .cm-sizer > *:nth-child(2) { animation-delay: 0.08s; }
+.workbench .markdown-preview-sizer > *:nth-child(3),
+.workbench .cm-sizer > *:nth-child(3) { animation-delay: 0.14s; }
+.workbench .markdown-preview-sizer > *:nth-child(4),
+.workbench .cm-sizer > *:nth-child(4) { animation-delay: 0.20s; }
+.workbench .markdown-preview-sizer > *:nth-child(5),
+.workbench .cm-sizer > *:nth-child(5) { animation-delay: 0.26s; }
+.workbench .markdown-preview-sizer > *:nth-child(6),
+.workbench .cm-sizer > *:nth-child(6) { animation-delay: 0.32s; }
+.workbench .markdown-preview-sizer > *:nth-child(7),
+.workbench .cm-sizer > *:nth-child(7) { animation-delay: 0.38s; }
+.workbench .markdown-preview-sizer > *:nth-child(8),
+.workbench .cm-sizer > *:nth-child(8) { animation-delay: 0.44s; }
+.workbench .markdown-preview-sizer > *:nth-child(n+9),
+.workbench .cm-sizer > *:nth-child(n+9) { animation-delay: 0.5s; }
+@media (prefers-reduced-motion: reduce) {
+  .workbench .markdown-preview-sizer > *,
+  .workbench .cm-sizer > * {
+    animation: none !important;
+  }
+}
