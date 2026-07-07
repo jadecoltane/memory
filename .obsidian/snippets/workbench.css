@@ -711,6 +711,117 @@
   font-size: 0.78em;
   color: var(--text-muted);
 }
+/* 2026-07-07 按用户手绘草图重做:统计卡从"点了跳搜索/图谱"改成标签
+   胶囊——点亮的那颗对应下方页内面板(.wb-panel),再点一次收起,全程
+   不离开工作台。选中态用取色柔光底,跟"随机重逢"🎲 标签同一套语言 */
+.workbench .wb-card.is-active {
+  background: var(--wb-accent-soft);
+  box-shadow: var(--wb-shadow-flat);
+}
+.workbench .wb-card.is-active .wb-lbl {
+  color: var(--wb-accent-text);
+}
+/* ➕ 新建笔记:样式整个复用换一篇按钮的 class(拟物玻璃圆钮+转圈,
+   见下面 .wb-reunion-reroll),这里只负责把它推到胶囊行最右(草图位置)*/
+.workbench .wb-cards .wb-newnote {
+  margin-left: auto;
+}
+/* 页内面板:跟其他卡片同一套底/圆角/阴影;上边距收回一点贴着胶囊行
+   (wb-cards 自带 18px 下边距,不收会离得太开),展开时复用入场动画
+   轻轻浮现 */
+.workbench .wb-panel {
+  margin: -6px 0 4px;
+  padding: 12px 14px;
+  background: var(--wb-card-bg);
+  backdrop-filter: var(--wb-card-blur);
+  -webkit-backdrop-filter: var(--wb-card-blur);
+  border-radius: var(--wb-radius);
+  box-shadow: var(--wb-shadow);
+  animation: wb-rise-in 0.35s var(--wb-ease) backwards;
+}
+.workbench .wb-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 10px 8px;
+  font-size: 0.78em;
+  color: var(--text-muted);
+}
+.workbench .wb-panel-link {
+  color: var(--wb-accent-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+.workbench .wb-panel-empty {
+  padding: 10px;
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+/* 行列表:hover 淡淡铺一层取色柔光,整行可点 */
+.workbench .wb-panel-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.workbench .wb-panel-row:hover {
+  background: var(--wb-accent-soft);
+}
+.workbench .wb-panel-row-title {
+  font-size: 0.9em;
+  color: var(--text-normal);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workbench .wb-panel-row-date {
+  flex: none;
+  font-size: 0.75em;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+/* 笔记面板顶部那排分类小方卡(草图第一屏的方块):跟嵌套 write/note
+   一个思路,用比面板更沉一档的 secondary 底 + 浅阴影区分层级 */
+.workbench .wb-cat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 2px;
+  margin-bottom: 8px;
+}
+.workbench .wb-cat-card {
+  flex: 0 0 auto;
+  min-width: 84px;
+  padding: 12px 16px;
+  text-align: center;
+  border-radius: var(--wb-radius-sm);
+  background: var(--background-secondary);
+  box-shadow: var(--wb-shadow-flat);
+  cursor: pointer;
+  transition: box-shadow 0.3s var(--wb-ease), transform 0.3s var(--wb-ease), background 0.3s var(--wb-ease);
+}
+.workbench .wb-cat-card:hover {
+  box-shadow: var(--wb-shadow);
+  transform: translateY(-2px);
+}
+.workbench .wb-cat-card.is-active {
+  background: var(--wb-accent-soft);
+}
+.workbench .wb-cat-num {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: var(--wb-accent-text);
+}
+.workbench .wb-cat-name {
+  margin-top: 2px;
+  font-size: 0.78em;
+  color: var(--text-muted);
+}
 
 /* callout 卡片化:不用边框线,靠"比页面背景亮一档"的底色 + 柔和阴影
    一起撑出"悬浮"的边界(2026-07-05 参考无边框卡片风格的截图,明确要求
