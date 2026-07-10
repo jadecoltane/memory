@@ -32,6 +32,7 @@ last-verified: 2026-07-10
 - **顶层 flex 块要 `min-width: 0`**:面板里 nowrap 长标题会把块的 min-content 撑超屏宽,表现为手机上面板超宽、胶囊换行位置乱跳。
 - **外观属性不写内联样式**(会压死 CSS :hover),内联只写随窄屏/宽屏变化的结构属性。
 - **触屏 :hover 会误触发**,纯外观 hover 一律包 `@media (hover: hover) and (pointer: fine)`。
+- **`closest(".workbench")` 不能在代码块求值时提前算**:那一刻容器可能还没挂进文档,拿到 null 且因 `?.` 静默失败(取色、高度同步都因此长期失效过)。要在真正使用的时刻(图片 onload、轮询命中)再调;也不要 `document.querySelector`(阅读/源码两个容器都带 .workbench,会查到隐藏那份)。
 - 失效条件:工作台整体重做设计语言时,这份清单里的视觉决定可以整体推翻,但"机制"一节的坑依然成立。
 
 相关:工作台.md、.obsidian/snippets/workbench.css、meta/WORKBENCH.md
