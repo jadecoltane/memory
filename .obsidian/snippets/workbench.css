@@ -30,6 +30,19 @@
   --wb-shadow-flat: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 14px rgba(0, 0, 0, 0.25);
   --wb-shadow-hover-subtle: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 10px 27px rgba(0, 0, 0, 0.38);
 }
+/* 深色卡片带 backdrop-filter,hover 的阴影/位移过渡会让 Chromium 把
+   卡片在普通图层和合成图层之间来回切换,切换瞬间模糊掉一帧,肉眼
+   就是"划过去跳一下"。translateZ(0)+will-change 让这些卡常驻合成层,
+   hover 不再触发切换(浅色没开模糊,不需要) */
+.theme-dark .workbench .callout,
+.theme-dark .workbench .wb-card,
+.theme-dark .workbench .wb-cat-card,
+.theme-dark .workbench .wb-panel,
+.theme-dark .workbench .wb-reunion,
+.theme-dark .workbench .wb-daily-painting {
+  transform: translateZ(0);
+  will-change: transform;
+}
 
 /* OKLCH 派生:锁定亮度和彩度,画作再深再灰文字也可读、底色也柔和;
    不支持相对颜色语法的端跳过,沿用上面的 color-mix 兜底 */
