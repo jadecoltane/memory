@@ -34,5 +34,3 @@ views:
     filters:
       and:
         - file.inFolder("notes/问答")
-  - type: cards
-    name: 视图
