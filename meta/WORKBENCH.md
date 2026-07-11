@@ -9,7 +9,7 @@
 
 **视觉基调**:由横幅画作在客户端用 canvas 取主色调自动算出(色相分桶投票,不用平均色——平均会把所有颜色互相抵消成灰)、写进 CSS 变量 `--wb-accent`,CSS 里再用 OKLCH 相对颜色语法派生锁定亮度的文字色/柔光底。
 
-**🖼 每日画作**(横幅背景):每天生成时用 WebSearch 挑一幅著名画作,优先 Wikimedia Commons 上 `upload.wikimedia.org` 开头的直链图片(几百 KB 到 2MB 的中等分辨率版本,不要几十 MB 的原图),写入 frontmatter 三个字段:`painting-url`、`painting-title`(画名·作者)、`painting-intro`(一句话简介)。**链接必须是当次搜索/抓取真实确认可访问的,查不到就保留前一天的画,不编造 URL**。
+**🖼 每日画作**(横幅背景):每天生成时用 WebSearch 挑一幅著名画作,优先 Wikimedia Commons 上 `upload.wikimedia.org` 开头的直链图片(几百 KB 到 2MB 的中等分辨率版本,不要几十 MB 的原图),写入 frontmatter 三个字段:`painting-url`、`painting-title`(画名·作者)、`painting-intro`(一句话简介)。**链接必须是当次搜索/抓取真实确认可访问的,查不到就保留前一天的画,不编造 URL**。选画不许与历史重复(用 `git log -p -- 工作台.md` 查 `painting-title` 历史),并避开传播度最高的教科书封面款(蒙娜丽莎、星夜、神奈川冲浪里、戴珍珠耳环的少女、呐喊、向日葵这一档),在时代/地域/风格上轮换。
 
 每日生成三个板块,都在 ☀️ 每日回路的 `[!today]+` 折叠壳里(标题留空):
 
