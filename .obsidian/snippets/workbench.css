@@ -565,18 +565,17 @@
     text-decoration: underline;
   }
 }
-/* 分类/概念小方卡:宽度由文字自己撑,行末不齐是靠左对齐的正常结果 */
+/* 分类/概念小方卡:Grid 等宽等距,名字超出卡宽用省略号(手机约容 6 个字) */
 .workbench .wb-cat-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
   gap: 10px;
   padding: 2px;
   margin-bottom: 8px;
 }
 .workbench .wb-cat-card {
-  flex: 0 0 auto;
-  min-width: 84px;
-  padding: 12px 16px;
+  min-width: 0;
+  padding: 12px 10px;
   text-align: center;
   border-radius: var(--wb-radius-sm);
   background: var(--background-secondary);
@@ -599,6 +598,9 @@
   margin-top: 2px;
   font-size: 0.78em;
   color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .workbench .wb-panel-caption {
   margin-top: 10px;
