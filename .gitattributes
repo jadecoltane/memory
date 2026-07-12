@@ -1,0 +1,3 @@
+# index.md 是脚本生成物,本地与云端都会重建,历来是合并冲突重灾区。
+# union 合并让 git 直接保留双方行(可能短暂重复),推送后 rebuild-index.yml 会重新生成干净版本。
+meta/index.md merge=union
