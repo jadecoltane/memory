@@ -1,4 +1,4 @@
-# 每周一北京时间 09:00 在云端做 Memory GC,不依赖任何本地设备开机。
+# 每周一北京时间 04:00 在云端做 Memory GC,不依赖任何本地设备开机。
 # 需要仓库 secret:CLAUDE_CODE_OAUTH_TOKEN(与工作台日更共用)。
 # 2026-07-06 起不再做跨仓库指针巡检(见 decisions/下线跨仓库指针巡检改为用户手动接入记忆库.md),
 # 不再需要 REPO_PATROL_PAT。
@@ -10,7 +10,7 @@ name: 每周 Memory GC
 
 on:
   schedule:
-    - cron: "0 1 * * 1" # UTC 周一 01:00 = 北京时间周一 09:00
+    - cron: "0 20 * * 0" # UTC 周日 20:00 = 北京时间周一 04:00
   workflow_dispatch: {}
 
 permissions:
