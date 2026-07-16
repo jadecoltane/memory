@@ -80,7 +80,13 @@ jobs:
             if gh issue list --state all --limit 100 --json title --jq '.[].title' | grep -Fxq "$TITLE"; then
               echo "同日待裁决 issue 已存在,不重复创建"
             else
-              gh issue create --title "$TITLE" --body-file .gc-pending-issue.txt
+              # 光开 issue 不会触达仓库主人:bot 用 GITHUB_TOKEN 开的、又没指派/没 @ 的 issue,
+              # 只有 watch 级别为「All Activity」才发邮件。所以指派给 owner(成为 participant,
+              # 通知与 watch 级别无关)并在正文 @ 一下,双保险确保邮件送达。
+              { echo "cc @${{ github.repository_owner }}"; echo; cat .gc-pending-issue.txt; } > "$RUNNER_TEMP/issue-body.md"
+              gh issue create --title "$TITLE" \
+                --assignee "${{ github.repository_owner }}" \
+                --body-file "$RUNNER_TEMP/issue-body.md"
             fi
             cp .gc-pending-issue.txt "$RUNNER_TEMP/gc-pending-issue.txt"
           fi

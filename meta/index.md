@@ -32,6 +32,7 @@
 
 ## 踩坑记录
 
+- [[pitfalls/bot开的issue默认不发邮件要指派或at才触达|bot开的issue默认不发邮件要指派或at才触达]] (verified: 2026-07-16)
 - [[pitfalls/claude-code-action结束后git-push要显式认证否则凭证被抹掉|claude-code-action结束后git-push要显式认证否则凭证被抹掉]] (verified: 2026-07-16)
 - [[pitfalls/云端Claude工作流会偶发401权限误报重跑即可不用改配置|云端Claude工作流会偶发401权限误报重跑即可不用改配置]] (verified: 2026-07-16)
 
@@ -57,4 +58,4 @@
 - [[notes/英语口语卡壳时先用简单句把想法说清再逐步加细节|英语口语卡壳时先用简单句把想法说清再逐步加细节]] (verified: false)
 - [[notes/问答/2026-07 工作台问答|2026-07 工作台问答]]
 
-共 37 条记忆。
+共 38 条记忆。
