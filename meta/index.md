@@ -1,6 +1,6 @@
 # 记忆索引
 
-> 自动生成于 2026-07-14,勿手改;运行 `python3 meta/scripts/build_memory_index.py` 更新。
+> 自动生成于 2026-07-16,勿手改;运行 `python3 meta/scripts/build_memory_index.py` 更新。
 
 ## 用户画像
 
@@ -23,6 +23,7 @@
 
 ## 决策与约定
 
+- [[decisions/作品集分别维护Claude和Codex技能目录|作品集分别维护Claude和Codex技能目录]] (verified: 2026-07-16)
 - [[decisions/作品集工作区保持公开不拆分|作品集工作区保持公开不拆分]] (verified: 2026-07-11)
 - [[decisions/作品集案例内容更新要同步到gh-pages网站|作品集案例内容更新要同步到gh-pages网站]] (verified: 2026-07-11)
 - [[decisions/工作台UI已否决方案清单改样式前先看这份|工作台UI已否决方案清单改样式前先看这份]] (verified: 2026-07-10)
@@ -54,4 +55,4 @@
 - [[notes/英语口语卡壳时先用简单句把想法说清再逐步加细节|英语口语卡壳时先用简单句把想法说清再逐步加细节]] (verified: false)
 - [[notes/问答/2026-07 工作台问答|2026-07 工作台问答]]
 
-共 34 条记忆。
+共 35 条记忆。
