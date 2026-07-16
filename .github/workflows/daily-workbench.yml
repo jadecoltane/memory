@@ -15,12 +15,13 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       # 每日渐变直接写死进 CSS(静态加载零跳变,JS 动态生成已否决),
-      # 改动会随下面 Claude 步骤的 git add -A 一起提交
+      # 改动会随最后的机械提交步骤一起提交
       - name: 写入今日页面渐变
         run: python3 meta/scripts/update_daily_gradient.py
 
@@ -44,9 +45,26 @@ jobs:
             - 控制成本:只读 meta/index.md 和选中的少数文件;抽卡不与最近几期重复(用 git log -p -- 工作台.md 查历史)
             - ## 标题、所有 dataviewjs 区块(横幅、信息条、今日内容折叠壳外层结构、统计卡、🎲 随机重逢卡,含心跳报警)、callout 卡片语法全部原样保留;frontmatter 保留 cssclasses;generated 已由前置步骤写好当天日期,原样保留。改动固定展示结构或视觉风格前先查 decisions/工作台UI已否决方案清单改样式前先看这份.md,避免把已否决的元素加回来
 
-            完成后提交推送:
-            git config user.name "workbench-bot"
-            git config user.email "actions@users.noreply.github.com"
-            git add -A && git commit -m "工作台日更:$(date -u -d '+8 hours' +%F)" && git push
+            只修改工作区文件,不要自行 commit 或 push;后续步骤会统一校验、提交并推送。
           claude_args: |
             --allowedTools "Bash,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch"
+
+      - name: 重建索引并体检
+        run: |
+          python3 meta/scripts/build_memory_index.py
+          python3 meta/scripts/lint_memory.py
+
+      - name: 有变化就提交推送
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "workbench-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "今日工作台没有变化"
+          else
+            git commit -m "工作台日更:$(TZ=Asia/Shanghai date +%F)"
+            gh auth setup-git
+            git push
+          fi

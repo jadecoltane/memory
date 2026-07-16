@@ -1,10 +1,13 @@
 ---
 type: pitfall
 created: 2026-07-11
-last-verified: 2026-07-11
+last-verified: 2026-07-16
 ---
 
 # 云端 Claude 工作流会偶发 401 权限误报,重跑即可,不用改配置
+
+> [!note] 历史记录
+> 2026-07-16 曾短暂迁移到 `openai/codex-action@v1`,但发现官方 Action 必须使用单独计费的 API Key 后立即切回 Claude OAuth。下面的 401 诊断再次适用于现行工作流,通用的失败自动重跑兜底仍保留。
 
 **现象**:工作台日更(claude-code-action)偶发在启动 30 秒内失败,日志报 `App token exchange failed: 401 Unauthorized - User does not have write access on this repository`,action 内部重试 3 次全挂。
 
