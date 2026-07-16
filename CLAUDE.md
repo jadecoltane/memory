@@ -9,7 +9,7 @@
 
 **四个自动化,不需要 AI 手动补**:
 - `rebuild-index.yml`:推送到 main 且改了记忆文件就自动重建 `meta/index.md`(AI 仍可手动跑 `meta/scripts/build_memory_index.py` 提前核对)
-- `weekly-gc.yml`:每周一 09:00(北京时间)云端跑「Memory GC」一节的步骤。**自上次 GC 以来零实质性新提交就直接跳过整次调用**,省 token 但会顺延按时间触发的维护
+- `weekly-gc.yml`:每周一 04:00(北京时间)云端跑「Memory GC」一节的步骤。**自上次 GC 以来零实质性新提交就直接跳过整次调用**,省 token 但会顺延按时间触发的维护
 - `daily-workbench.yml`:每天 05:00(北京时间)云端生成新一期 `工作台.md`,规范单独在 `meta/WORKBENCH.md`(只在处理工作台相关任务时才需要读那份文件,平时聊天不用加载)
 - `lint.yml`:每次推送跑 `meta/scripts/lint_memory.py` 查断链和 frontmatter 完整性,失败邮件通知(幽灵概念是设计允许的,不算断链)。AI 写完记忆建议本地先跑一遍
 
