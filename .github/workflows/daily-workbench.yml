@@ -34,6 +34,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
           prompt: |
             当前目录就是个人记忆库仓库(jadecoltrane/memory)。读 meta/WORKBENCH.md,严格按那份文件的规则更新 工作台.md 的三个 AI 板块(🎴 今日抽卡 / 🌱 今日延伸 / ❓ 今天的问题×2),以及横幅画作:
 

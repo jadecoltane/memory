@@ -51,6 +51,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
           prompt: |
             当前目录就是个人记忆库仓库(jadecoltrane/memory)。读 meta/GC.md,严格按里面列出的每一步执行本周 GC(含步骤 4a、4b)。要点提醒:
 
