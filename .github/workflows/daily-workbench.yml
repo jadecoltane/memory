@@ -65,6 +65,6 @@ jobs:
             echo "今日工作台没有变化"
           else
             git commit -m "工作台日更:$(TZ=Asia/Shanghai date +%F)"
-            gh auth setup-git
+            git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
             git push
           fi

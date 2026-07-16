@@ -108,6 +108,6 @@ jobs:
                 -m "每周 GC:$(TZ=Asia/Shanghai date +%F)" \
                 -m "Claude 按 meta/GC.md 完成本周整理;本次没有待裁决条目。"
             fi
-            gh auth setup-git
+            git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
             git push
           fi
