@@ -1,6 +1,6 @@
 # CLAUDE.md — AI 协作与记忆库规则
 
-`jadecoltrane/memory` 就是记忆库本身:数据层纯 Markdown + Git(可迁移,任何 AI 都能接入),使用层 Obsidian 插件随便用(Dataview、Git 等)。当前以 Codex 为主要自动化执行器,同时保留 Claude 兼容入口。
+`jadecoltrane/memory` 就是记忆库本身:数据层纯 Markdown + Git(可迁移,任何 AI 都能接入),使用层 Obsidian 插件随便用(Dataview、Git 等)。当前 Claude 负责无需单独 API 计费的云端定时任务,Codex 与 Claude 均可处理日常仓库协作。
 
 
 **兜底优先**:可靠性相关的东西(失败告警、机器校验、边界情况、备份)必须**预先**设计,不等出事再补;懒加载只允许用在内容组织(概念页第二次命中才建、SUMMARY 凑够 2 条才起条目、`notes/` 子文件夹同主题第二篇笔记出现时才建、单篇新主题先放 `notes/` 根目录),不适用于安全网。
