@@ -43,6 +43,7 @@
 
 ## 我的收藏
 
+- [[notes/Git核心原理与Obsidian-Git操作速查|Git核心原理与Obsidian-Git操作速查]] (verified: false)
 - [[notes/人脑记忆是压缩重构的活路网-AI权重是焊死的大档案馆|人脑记忆是压缩重构的活路网-AI权重是焊死的大档案馆]] (verified: false)
 - [[notes/健康/油皮控油护肤与医美方案|油皮控油护肤与医美方案]] (verified: false)
 - [[notes/健康/熬夜后如何快速恢复|熬夜后如何快速恢复]] (verified: false)
@@ -69,4 +70,4 @@
 - [[notes/车机技术基础-View-CAN总线-Android-网关隔离|车机技术基础-View-CAN总线-Android-网关隔离]] (verified: false)
 - [[notes/问答/2026-07 工作台问答|2026-07 工作台问答]]
 
-共 49 条记忆。
+共 50 条记忆。
