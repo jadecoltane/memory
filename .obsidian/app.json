@@ -13,7 +13,8 @@
     "notes/问答/",
     "工作台.md",
     "claude.md",
-    "agents.md"
+    "agents.md",
+    "index.md"
   ],
   "showUnsupportedFiles": true,
   "promptDelete": false,
