@@ -1,6 +1,5 @@
 # 记忆索引
 
-> 自动生成于 2026-07-21,勿手改;运行 `python3 meta/scripts/build_memory_index.py` 更新。
 > 自动生成于 2026-07-22,勿手改;运行 `python3 meta/scripts/build_memory_index.py` 更新。
 
 ## 用户画像
